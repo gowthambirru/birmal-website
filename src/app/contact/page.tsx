@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, prefersReducedMotion, resolveMotionConfig } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { PageHeroBanner } from "@/components/PageHeroBanner";
 import {
@@ -32,20 +32,27 @@ export default function ContactPage() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".contact-col", {
-          y: 18,
-          autoAlpha: 0,
-          duration: 0.55,
-          stagger: 0.1,
-          clearProps: "transform,opacity,visibility",
-          scrollTrigger: {
-            trigger: ".contact-grid",
-            start: "top 86%",
-            once: true,
-          },
-        });
-      });
+      mm.add(
+        {
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          all: "(min-width: 0px)",
+        },
+        (context) => {
+          const motion = resolveMotionConfig(context.conditions);
+          gsap.from(".contact-col", {
+            y: motion.reduced ? 5 : 18,
+            autoAlpha: 0,
+            duration: motion.dur(0.55, 0.36),
+            stagger: motion.reduced ? 0.06 : 0.1,
+            clearProps: "transform,opacity,visibility",
+            scrollTrigger: {
+              trigger: ".contact-grid",
+              start: "top 86%",
+              once: true,
+            },
+          });
+        }
+      );
     },
     { scope: pageRef }
   );
@@ -53,18 +60,17 @@ export default function ContactPage() {
   useGSAP(
     () => {
       if (!submitted || !successRef.current) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion) return;
+      const reduced = prefersReducedMotion();
 
       gsap.fromTo(
         successRef.current,
-        { autoAlpha: 0, scale: 0.94, y: 12 },
+        { autoAlpha: 0, scale: reduced ? 0.99 : 0.94, y: reduced ? 4 : 12 },
         {
           autoAlpha: 1,
           scale: 1,
           y: 0,
-          duration: 0.4,
-          ease: "back.out(1.5)",
+          duration: reduced ? 0.28 : 0.4,
+          ease: reduced ? "power2.out" : "back.out(1.5)",
           clearProps: "transform,opacity,visibility",
         }
       );

@@ -3,7 +3,14 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import {
+  gsap,
+  useGSAP,
+  ScrollTrigger,
+  MOTION_QUERIES,
+  prefersReducedMotion,
+  resolveMotionConfig,
+} from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import {
@@ -58,24 +65,23 @@ export default function ProductsPage() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           gsap.from(".prod-hero-stagger", {
-            y: isMobile ? 12 : 18,
+            y: motion.y(18, 5),
             autoAlpha: 0,
-            duration: 0.5,
-            stagger: 0.07,
+            duration: motion.dur(0.5, 0.34),
+            stagger: motion.reduced ? 0.04 : 0.07,
             clearProps: "transform,opacity,visibility",
           });
 
           const stepRows = gsap.utils.toArray<HTMLElement>(".usage-step-row", pageRef.current);
-          gsap.set(stepRows, { autoAlpha: 0, y: isMobile ? 16 : 24 });
+          gsap.set(stepRows, { autoAlpha: 0, y: motion.y(24, 6) });
           ScrollTrigger.batch(stepRows, {
             start: "top 86%",
             once: true,
@@ -83,8 +89,8 @@ export default function ProductsPage() {
               gsap.to(batch, {
                 autoAlpha: 1,
                 y: 0,
-                duration: 0.55,
-                stagger: 0.12,
+                duration: motion.dur(0.55, 0.36),
+                stagger: motion.reduced ? 0.06 : 0.12,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,
@@ -100,19 +106,18 @@ export default function ProductsPage() {
   useGSAP(
     () => {
       if (!hasSwitchedSizeRef.current) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion) return;
+      const reduced = prefersReducedMotion();
 
       if (bottleStageRef.current) {
         gsap.fromTo(
           bottleStageRef.current,
-          { autoAlpha: 0.2, scale: 0.93, y: 10 },
+          { autoAlpha: 0.25, scale: reduced ? 0.99 : 0.93, y: reduced ? 0 : 10 },
           {
             autoAlpha: 1,
             scale: 1,
             y: 0,
-            duration: 0.36,
-            ease: "back.out(1.4)",
+            duration: reduced ? 0.25 : 0.36,
+            ease: reduced ? "power2.out" : "back.out(1.4)",
             clearProps: "transform,opacity,visibility",
             overwrite: true,
           }
@@ -122,7 +127,7 @@ export default function ProductsPage() {
       if (priceTagRef.current) {
         gsap.fromTo(
           priceTagRef.current,
-          { y: -4, autoAlpha: 0.4 },
+          { y: reduced ? 0 : -4, autoAlpha: 0.45 },
           {
             y: 0,
             autoAlpha: 1,
@@ -141,16 +146,15 @@ export default function ProductsPage() {
   useGSAP(
     () => {
       if (!hasSwitchedTabRef.current || !benefitPanelRef.current) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion) return;
+      const reduced = prefersReducedMotion();
 
       gsap.fromTo(
         benefitPanelRef.current,
-        { autoAlpha: 0, y: 12 },
+        { autoAlpha: 0, y: reduced ? 4 : 12 },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.35,
+          duration: reduced ? 0.25 : 0.35,
           ease: "power3.out",
           clearProps: "transform,opacity,visibility",
           overwrite: true,

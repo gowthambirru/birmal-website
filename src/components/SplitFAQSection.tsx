@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { Plus, ArrowRight } from "lucide-react";
 
@@ -16,48 +16,38 @@ export function SplitFAQSection() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          animate: "(prefers-reduced-motion: no-preference)",
-        },
-        (context) => {
-          const reduceMotion = context.conditions?.reduceMotion;
-          const isInitial = !hasInitializedPanelsRef.current;
-          hasInitializedPanelsRef.current = true;
+      const isInitial = !hasInitializedPanelsRef.current;
+      hasInitializedPanelsRef.current = true;
 
-          Object.entries(panelRefs.current).forEach(([id, el]) => {
-            if (!el) return;
-            const isOpen = openId === id;
-            if (reduceMotion || isInitial) {
-              gsap.set(el, {
-                height: isOpen ? "auto" : 0,
-                autoAlpha: isOpen ? 1 : 0,
-              });
-              return;
-            }
+      Object.entries(panelRefs.current).forEach(([id, el]) => {
+        if (!el) return;
+        const isOpen = openId === id;
+        if (isInitial) {
+          gsap.set(el, {
+            height: isOpen ? "auto" : 0,
+            autoAlpha: isOpen ? 1 : 0,
+          });
+          return;
+        }
 
-            if (isOpen) {
-              gsap.to(el, {
-                height: "auto",
-                autoAlpha: 1,
-                duration: 0.34,
-                ease: "power3.out",
-                overwrite: true,
-              });
-            } else {
-              gsap.to(el, {
-                height: 0,
-                autoAlpha: 0,
-                duration: 0.25,
-                ease: "power2.inOut",
-                overwrite: true,
-              });
-            }
+        if (isOpen) {
+          gsap.to(el, {
+            height: "auto",
+            autoAlpha: 1,
+            duration: 0.34,
+            ease: "power3.out",
+            overwrite: true,
+          });
+        } else {
+          gsap.to(el, {
+            height: 0,
+            autoAlpha: 0,
+            duration: 0.25,
+            ease: "power2.inOut",
+            overwrite: true,
           });
         }
-      );
+      });
     },
     { scope: sectionRef, dependencies: [openId] }
   );
@@ -65,20 +55,27 @@ export function SplitFAQSection() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".faq-stagger", {
-          y: 18,
-          autoAlpha: 0,
-          duration: 0.55,
-          stagger: 0.07,
-          clearProps: "transform,opacity,visibility",
-          scrollTrigger: {
-            trigger: ".faq-panel-col",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
+      mm.add(
+        {
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          all: "(min-width: 0px)",
+        },
+        (context) => {
+          const motion = resolveMotionConfig(context.conditions);
+          gsap.from(".faq-stagger", {
+            y: motion.reduced ? 6 : 18,
+            autoAlpha: 0,
+            duration: motion.dur(0.55, 0.36),
+            stagger: motion.reduced ? 0.04 : 0.07,
+            clearProps: "transform,opacity,visibility",
+            scrollTrigger: {
+              trigger: ".faq-panel-col",
+              start: "top 85%",
+              once: true,
+            },
+          });
+        }
+      );
     },
     { scope: sectionRef }
   );

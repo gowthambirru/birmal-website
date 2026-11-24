@@ -126,7 +126,7 @@ export default function AboutPage() {
               return (
                 <div
                   key={idx}
-                  className="reveal-item group relative bg-white rounded-3xl p-6 shadow-card hover:shadow-card-hover border border-emerald-950/[0.08] hover:border-[#0FA942]/35 space-y-3 transition-all duration-300 md:hover:-translate-y-1"
+                  className="reveal-item group relative bg-white rounded-3xl p-6 shadow-card hover:shadow-card-hover border border-emerald-950/[0.08] hover:border-[#0FA942]/35 space-y-3 transition-[box-shadow,border-color] duration-300"
                 >
                   <span className="absolute top-5 right-5 text-2xl font-black text-emerald-950/[0.05] tabular-nums">
                     {pil.num}

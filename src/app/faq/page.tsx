@@ -2,7 +2,13 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { gsap, useGSAP } from "@/lib/gsap";
+import {
+  gsap,
+  useGSAP,
+  MOTION_QUERIES,
+  prefersReducedMotion,
+  resolveMotionConfig,
+} from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { PageHeroBanner } from "@/components/PageHeroBanner";
 import { Search, Plus, Phone, Mail, HelpCircle } from "lucide-react";
@@ -42,14 +48,13 @@ export default function FAQPage() {
 
   useGSAP(
     () => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const isInitial = !hasInitializedPanelsRef.current;
       hasInitializedPanelsRef.current = true;
 
       Object.entries(panelRefs.current).forEach(([id, el]) => {
         if (!el) return;
         const isOpen = !!openIds[id];
-        if (reduceMotion || isInitial) {
+        if (isInitial) {
           gsap.set(el, { height: isOpen ? "auto" : 0, autoAlpha: isOpen ? 1 : 0 });
           return;
         }
@@ -77,20 +82,28 @@ export default function FAQPage() {
 
   useGSAP(
     () => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion || !hasFilteredRef.current) return;
-
-      gsap.fromTo(
-        ".faq-list-card",
-        { y: 12, autoAlpha: 0 },
+      if (!hasFilteredRef.current) return;
+      const mm = gsap.matchMedia();
+      mm.add(
         {
-          y: 0,
-          autoAlpha: 1,
-          duration: 0.32,
-          stagger: 0.04,
-          ease: "power3.out",
-          clearProps: "transform,opacity,visibility",
-          overwrite: true,
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          all: "(min-width: 0px)",
+        },
+        (context) => {
+          const motion = resolveMotionConfig(context.conditions);
+          gsap.fromTo(
+            ".faq-list-card",
+            { y: motion.reduced ? 4 : 12, autoAlpha: 0 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: motion.dur(0.32, 0.24),
+              stagger: motion.reduced ? 0.025 : 0.04,
+              ease: "power3.out",
+              clearProps: "transform,opacity,visibility",
+              overwrite: true,
+            }
+          );
         }
       );
     },

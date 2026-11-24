@@ -42,7 +42,7 @@ export default function WhereToBuyPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Amazon Card */}
-            <div className="reveal-item bg-white rounded-3xl p-8 border border-emerald-950/10 hover:border-amber-400 shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 flex flex-col justify-between space-y-6">
+            <div className="reveal-item bg-white rounded-3xl p-8 border border-emerald-950/10 hover:border-amber-400 shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-300 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="h-14 flex items-center">
                   <Image
@@ -71,7 +71,7 @@ export default function WhereToBuyPage() {
             </div>
 
             {/* Flipkart Card */}
-            <div className="reveal-item bg-white rounded-3xl p-8 border border-emerald-950/10 hover:border-blue-500 shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 flex flex-col justify-between space-y-6">
+            <div className="reveal-item bg-white rounded-3xl p-8 border border-emerald-950/10 hover:border-blue-500 shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-300 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="h-14 flex items-center">
                   <Image
@@ -100,7 +100,7 @@ export default function WhereToBuyPage() {
             </div>
 
             {/* Direct WhatsApp Order Card */}
-            <div className="reveal-item bg-gradient-to-br from-[#F0FAF4] to-[#E5F6EC] rounded-3xl p-8 border border-[#0FA942]/35 shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 flex flex-col justify-between space-y-6">
+            <div className="reveal-item bg-gradient-to-br from-[#F0FAF4] to-[#E5F6EC] rounded-3xl p-8 border border-[#0FA942]/35 shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-300 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#0FA942] text-white flex items-center justify-center shadow-sm">
                   <MessageCircle className="w-6 h-6" />
@@ -144,7 +144,7 @@ export default function WhereToBuyPage() {
             {BRAND_CONFIG.retailPartners.map((p, idx) => (
               <div
                 key={idx}
-                className="reveal-item bg-white rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 border border-emerald-950/[0.06] group"
+                className="reveal-item bg-white rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-300 border border-emerald-950/[0.06] group"
               >
                 <div className="relative w-full h-12 flex items-center justify-center">
                   <Image

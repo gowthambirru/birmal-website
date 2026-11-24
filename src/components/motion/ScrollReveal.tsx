@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ interface ScrollRevealProps {
 
 /**
  * Reusable GSAP ScrollTrigger batch container for Server Component pages.
- * Automatically handles matchMedia reduced-motion and mobile spacing.
+ * Automatically scales displacement for reduced-motion and mobile viewports.
  */
 export function ScrollReveal({
   children,
@@ -29,18 +29,16 @@ export function ScrollReveal({
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
-
+          const motion = resolveMotionConfig(context.conditions);
           const items = gsap.utils.toArray<HTMLElement>(selector, containerRef.current);
           if (!items.length) return;
 
-          gsap.set(items, { autoAlpha: 0, y: isMobile ? Math.min(14, y) : y });
+          gsap.set(items, { autoAlpha: 0, y: motion.y(y, 6) });
           ScrollTrigger.batch(items, {
             start: "top 88%",
             once: true,
@@ -48,8 +46,8 @@ export function ScrollReveal({
               gsap.to(batch, {
                 autoAlpha: 1,
                 y: 0,
-                duration: isMobile ? 0.42 : 0.55,
-                stagger,
+                duration: motion.dur(motion.desktop ? 0.55 : 0.42, 0.36),
+                stagger: motion.reduced ? Math.min(0.05, stagger) : stagger,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,

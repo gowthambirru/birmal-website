@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { ChevronUp } from "lucide-react";
 
 export function BackToTop() {
@@ -42,7 +42,7 @@ export function BackToTop() {
         });
       }
     },
-    { dependencies: [visible] }
+    { scope: btnRef, dependencies: [visible] }
   );
 
   const { contextSafe } = useGSAP({ scope: btnRef });
@@ -56,15 +56,9 @@ export function BackToTop() {
       ease: "power2.out",
     });
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      window.scrollTo(0, 0);
-      return;
-    }
-
     gsap.to(window, {
       scrollTo: { y: 0 },
-      duration: 0.75,
+      duration: prefersReducedMotion() ? 0.35 : 0.75,
       ease: "power3.inOut",
     });
   });

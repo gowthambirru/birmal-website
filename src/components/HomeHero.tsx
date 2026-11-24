@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { BubbleDecorations } from "@/components/BubbleDecorations";
 import { WaveDivider } from "@/components/WaveDivider";
 import { MagneticButton } from "@/components/motion/MagneticButton";
@@ -19,21 +19,20 @@ export function HomeHero() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 1023px)",
-          isDesktop: "(min-width: 1024px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isBelowLg,
+          isDesktop: MOTION_QUERIES.isLgDesktop,
         },
         (context) => {
-          const { reduceMotion, isDesktop } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
           tl.from(".hero-copy-item", {
-            y: isDesktop ? 22 : 14,
+            y: motion.y(22, 6),
             autoAlpha: 0,
-            duration: 0.58,
-            stagger: 0.08,
+            duration: motion.dur(0.58, 0.42),
+            stagger: motion.reduced ? 0.05 : 0.08,
             clearProps: "transform,opacity,visibility",
           })
             .from(
@@ -41,25 +40,25 @@ export function HomeHero() {
               {
                 scaleX: 0,
                 transformOrigin: "left center",
-                duration: 0.55,
+                duration: motion.dur(0.55, 0.38),
                 ease: "power2.out",
                 clearProps: "transform",
               },
-              0.25
+              0.22
             )
             .from(
               ".hero-visual-stage",
               {
-                scale: 0.92,
+                scale: motion.reduced ? 0.98 : 0.92,
                 autoAlpha: 0,
-                duration: 0.72,
+                duration: motion.dur(0.72, 0.48),
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
               },
               0.12
             );
 
-          if (isDesktop) {
+          if (motion.desktop && !motion.reduced) {
             gsap.to(".hero-orbit-ring", {
               rotation: 360,
               duration: 50,

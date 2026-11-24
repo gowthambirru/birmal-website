@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { ShieldCheck, Sparkles, Smile, Phone, Mail, MapPin, ChevronRight } from "lucide-react";
 
@@ -13,20 +13,27 @@ export function Footer() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".footer-col", {
-          y: 18,
-          autoAlpha: 0,
-          duration: 0.5,
-          stagger: 0.08,
-          clearProps: "transform,opacity,visibility",
-          scrollTrigger: {
-            trigger: ".footer-main",
-            start: "top 90%",
-            once: true,
-          },
-        });
-      });
+      mm.add(
+        {
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          all: "(min-width: 0px)",
+        },
+        (context) => {
+          const motion = resolveMotionConfig(context.conditions);
+          gsap.from(".footer-col", {
+            y: motion.reduced ? 5 : 18,
+            autoAlpha: 0,
+            duration: motion.dur(0.5, 0.34),
+            stagger: motion.reduced ? 0.05 : 0.08,
+            clearProps: "transform,opacity,visibility",
+            scrollTrigger: {
+              trigger: ".footer-main",
+              start: "top 90%",
+              once: true,
+            },
+          });
+        }
+      );
     },
     { scope: footerRef }
   );

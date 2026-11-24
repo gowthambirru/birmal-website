@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { Check, ArrowRight, FlaskConical } from "lucide-react";
 import { BRAND_CONFIG } from "@/config/brand";
 import { MagneticButton } from "@/components/motion/MagneticButton";
@@ -23,19 +23,18 @@ export function AboutPreview() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 1023px)",
-          isDesktop: "(min-width: 1024px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isBelowLg,
+          isDesktop: MOTION_QUERIES.isLgDesktop,
         },
         (context) => {
-          const { reduceMotion, isDesktop } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           gsap.from(".about-photo-frame", {
-            y: isDesktop ? 28 : 16,
+            y: motion.y(28, 6),
             autoAlpha: 0,
-            duration: 0.65,
-            stagger: 0.14,
+            duration: motion.dur(0.65, 0.42),
+            stagger: motion.reduced ? 0.08 : 0.14,
             ease: "power3.out",
             clearProps: "transform,opacity,visibility",
             scrollTrigger: {
@@ -46,10 +45,10 @@ export function AboutPreview() {
           });
 
           gsap.from(".about-copy-stagger", {
-            y: isDesktop ? 20 : 12,
+            y: motion.y(20, 6),
             autoAlpha: 0,
-            duration: 0.55,
-            stagger: 0.08,
+            duration: motion.dur(0.55, 0.38),
+            stagger: motion.reduced ? 0.05 : 0.08,
             ease: "power3.out",
             clearProps: "transform,opacity,visibility",
             scrollTrigger: {
@@ -59,7 +58,7 @@ export function AboutPreview() {
             },
           });
 
-          if (isDesktop) {
+          if (motion.desktop && !motion.reduced) {
             // Subtle hardware-accelerated scroll parallax on overlapping foreground photo
             gsap.to(".about-photo-front", {
               y: -22,

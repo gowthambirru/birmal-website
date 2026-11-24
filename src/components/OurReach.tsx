@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
@@ -16,19 +16,18 @@ export function OurReach() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           gsap.from(".reach-left-item", {
-            y: isMobile ? 14 : 20,
+            y: motion.y(20, 6),
             autoAlpha: 0,
-            duration: 0.55,
-            stagger: 0.08,
+            duration: motion.dur(0.55, 0.36),
+            stagger: motion.reduced ? 0.05 : 0.08,
             clearProps: "transform,opacity,visibility",
             scrollTrigger: {
               trigger: ".reach-left-col",
@@ -42,7 +41,7 @@ export function OurReach() {
             const counter = { value: 0 };
             gsap.to(counter, {
               value: 50000,
-              duration: 1.4,
+              duration: motion.dur(1.4, 0.95),
               ease: "power2.out",
               scrollTrigger: {
                 trigger: countRef.current,
@@ -57,7 +56,11 @@ export function OurReach() {
             });
           }
 
-          gsap.set(".reach-partner-card", { autoAlpha: 0, y: isMobile ? 14 : 20, scale: 0.96 });
+          gsap.set(".reach-partner-card", {
+            autoAlpha: 0,
+            y: motion.y(20, 5),
+            scale: motion.reduced ? 0.99 : 0.96,
+          });
           ScrollTrigger.batch(".reach-partner-card", {
             start: "top 88%",
             once: true,
@@ -66,8 +69,8 @@ export function OurReach() {
                 autoAlpha: 1,
                 y: 0,
                 scale: 1,
-                duration: 0.48,
-                stagger: 0.045,
+                duration: motion.dur(0.48, 0.35),
+                stagger: motion.reduced ? 0.03 : 0.045,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,
@@ -157,7 +160,7 @@ export function OurReach() {
               {BRAND_CONFIG.retailPartners.map((partner, idx) => (
                 <div
                   key={idx}
-                  className="reach-partner-card bg-white/95 rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-between text-center shadow-lg hover:shadow-2xl md:hover:-translate-y-1 border border-white/80 transition-all duration-300 group min-h-[104px]"
+                  className="reach-partner-card bg-white/95 rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-between text-center shadow-lg hover:shadow-2xl border border-white/80 transition-[box-shadow,border-color] duration-300 group min-h-[104px]"
                 >
                   <div className="relative w-full h-11 flex items-center justify-center">
                     <Image

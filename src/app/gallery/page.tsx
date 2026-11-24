@@ -2,7 +2,14 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import {
+  gsap,
+  useGSAP,
+  ScrollTrigger,
+  MOTION_QUERIES,
+  prefersReducedMotion,
+  resolveMotionConfig,
+} from "@/lib/gsap";
 import { PageHeroBanner } from "@/components/PageHeroBanner";
 import { X, Eye } from "lucide-react";
 
@@ -40,19 +47,21 @@ export default function GalleryPage() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
-
+          const motion = resolveMotionConfig(context.conditions);
           const cards = gsap.utils.toArray<HTMLElement>(".gallery-card", pageRef.current);
           if (!cards.length) return;
 
           if (!hasFilteredRef.current) {
-            gsap.set(cards, { autoAlpha: 0, y: isMobile ? 14 : 20, scale: 0.97 });
+            gsap.set(cards, {
+              autoAlpha: 0,
+              y: motion.y(20, 6),
+              scale: motion.reduced ? 0.99 : 0.97,
+            });
             ScrollTrigger.batch(cards, {
               start: "top 88%",
               once: true,
@@ -61,8 +70,8 @@ export default function GalleryPage() {
                   autoAlpha: 1,
                   y: 0,
                   scale: 1,
-                  duration: 0.48,
-                  stagger: 0.055,
+                  duration: motion.dur(0.48, 0.34),
+                  stagger: motion.reduced ? 0.035 : 0.055,
                   ease: "power3.out",
                   clearProps: "transform,opacity,visibility",
                   overwrite: true,
@@ -71,13 +80,17 @@ export default function GalleryPage() {
           } else {
             gsap.fromTo(
               cards,
-              { autoAlpha: 0, y: 14, scale: 0.96 },
+              {
+                autoAlpha: 0,
+                y: motion.reduced ? 4 : 14,
+                scale: motion.reduced ? 0.99 : 0.96,
+              },
               {
                 autoAlpha: 1,
                 y: 0,
                 scale: 1,
-                duration: 0.36,
-                stagger: 0.04,
+                duration: motion.dur(0.36, 0.25),
+                stagger: motion.reduced ? 0.025 : 0.04,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,
@@ -94,17 +107,16 @@ export default function GalleryPage() {
   useGSAP(
     () => {
       if (!selectedImage || !modalCardRef.current) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion) return;
+      const reduced = prefersReducedMotion();
 
       gsap.fromTo(
         modalCardRef.current,
-        { autoAlpha: 0, scale: 0.94, y: 12 },
+        { autoAlpha: 0, scale: reduced ? 0.99 : 0.94, y: reduced ? 4 : 12 },
         {
           autoAlpha: 1,
           scale: 1,
           y: 0,
-          duration: 0.28,
+          duration: reduced ? 0.22 : 0.28,
           ease: "power3.out",
           clearProps: "transform,opacity,visibility",
           overwrite: true,
@@ -235,7 +247,7 @@ export default function GalleryPage() {
             <div
               key={item.id}
               onClick={() => setSelectedImage(item)}
-              className="gallery-card group relative bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 cursor-pointer border border-emerald-950/10 flex flex-col justify-between"
+              className="gallery-card group relative bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-[box-shadow,border-color] duration-300 cursor-pointer border border-emerald-950/10 flex flex-col justify-between"
             >
               {/* Image Container */}
               <div className="relative w-full h-64 sm:h-72 p-4 flex items-center justify-center bg-[#F8FBFA]">

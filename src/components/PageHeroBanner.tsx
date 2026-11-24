@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { WaveDivider } from "@/components/WaveDivider";
 
 interface PageHeroBannerProps {
@@ -30,19 +30,18 @@ export function PageHeroBanner({
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           gsap.from(".hero-stagger", {
-            y: isMobile ? 12 : 20,
+            y: motion.y(20, 6),
             autoAlpha: 0,
-            duration: isMobile ? 0.42 : 0.55,
-            stagger: 0.08,
+            duration: motion.dur(motion.desktop ? 0.55 : 0.42, 0.36),
+            stagger: motion.reduced ? 0.05 : 0.08,
             ease: "power3.out",
             clearProps: "transform,opacity,visibility",
           });

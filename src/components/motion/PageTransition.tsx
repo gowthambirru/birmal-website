@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { usePathname } from "next/navigation";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 
 // Tracks client-side route transitions after initial hydration so SSR first paint is never delayed.
 let hasCompletedInitialLoad = false;
@@ -24,14 +24,14 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
+          const { reduced, desktop } = resolveMotionConfig(context.conditions);
 
-          if (reduceMotion || !isRouteChange) {
+          if (!isRouteChange) {
             gsap.set(wrapperRef.current, { clearProps: "transform,opacity,visibility" });
             gsap.set(progressBarRef.current, { autoAlpha: 0, scaleX: 0 });
             return;
@@ -43,24 +43,26 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
             },
           });
 
+          const barDur = desktop ? 0.38 : 0.3;
+
           tl.fromTo(
             progressBarRef.current,
             { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" },
-            { scaleX: 1, duration: isMobile ? 0.3 : 0.38, ease: "power2.out" },
+            { scaleX: 1, duration: barDur, ease: "power2.out" },
             0
           )
             .to(
               progressBarRef.current,
               { autoAlpha: 0, duration: 0.2, ease: "power1.out" },
-              isMobile ? 0.24 : 0.32
+              desktop ? 0.32 : 0.24
             )
             .fromTo(
               wrapperRef.current,
-              { autoAlpha: 0, y: isMobile ? 10 : 16 },
+              { autoAlpha: 0, y: reduced ? 0 : desktop ? 16 : 10 },
               {
                 autoAlpha: 1,
                 y: 0,
-                duration: isMobile ? 0.34 : 0.44,
+                duration: reduced ? 0.28 : desktop ? 0.44 : 0.34,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
               },

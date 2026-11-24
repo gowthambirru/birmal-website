@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { Sparkles, MapPin, ShieldCheck } from "lucide-react";
 
 export function WhyChooseUs() {
@@ -39,19 +39,18 @@ export function WhyChooseUs() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          isMobile: "(max-width: 767px)",
-          isDesktop: "(min-width: 768px)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          isMobile: MOTION_QUERIES.isMobile,
+          isDesktop: MOTION_QUERIES.isDesktop,
         },
         (context) => {
-          const { reduceMotion, isMobile } = context.conditions ?? {};
-          if (reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           gsap.from(".why-header-item", {
-            y: isMobile ? 14 : 22,
+            y: motion.y(22, 6),
             autoAlpha: 0,
-            duration: 0.55,
-            stagger: 0.08,
+            duration: motion.dur(0.55, 0.36),
+            stagger: motion.reduced ? 0.05 : 0.08,
             clearProps: "transform,opacity,visibility",
             scrollTrigger: {
               trigger: ".why-header",
@@ -60,7 +59,7 @@ export function WhyChooseUs() {
             },
           });
 
-          gsap.set(".why-card", { autoAlpha: 0, y: isMobile ? 16 : 26 });
+          gsap.set(".why-card", { autoAlpha: 0, y: motion.y(26, 6) });
           ScrollTrigger.batch(".why-card", {
             start: "top 88%",
             once: true,
@@ -68,8 +67,8 @@ export function WhyChooseUs() {
               gsap.to(batch, {
                 autoAlpha: 1,
                 y: 0,
-                duration: isMobile ? 0.45 : 0.6,
-                stagger: 0.1,
+                duration: motion.dur(motion.desktop ? 0.6 : 0.45, 0.38),
+                stagger: motion.reduced ? 0.06 : 0.1,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,
@@ -107,7 +106,7 @@ export function WhyChooseUs() {
             return (
               <div
                 key={idx}
-                className="why-card group relative bg-white rounded-3xl p-7 sm:p-8 shadow-card hover:shadow-card-hover border border-emerald-950/[0.08] hover:border-[#0FA942]/40 transition-all duration-300 md:hover:-translate-y-1.5 overflow-hidden flex flex-col justify-between"
+                className="why-card group relative bg-white rounded-3xl p-7 sm:p-8 shadow-card hover:shadow-card-hover border border-emerald-950/[0.08] hover:border-[#0FA942]/40 transition-[box-shadow,border-color] duration-300 overflow-hidden flex flex-col justify-between"
               >
                 {/* Faint editorial index watermark */}
                 <span

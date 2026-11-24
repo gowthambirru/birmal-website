@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_QUERIES, resolveMotionConfig } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
 import { Star, ChevronLeft, ChevronRight, Quote, BadgeCheck } from "lucide-react";
 
@@ -34,18 +34,18 @@ export function TestimonialsSection() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-          animate: "(prefers-reduced-motion: no-preference)",
+          reduceMotion: MOTION_QUERIES.reduceMotion,
+          all: "(min-width: 0px)",
         },
         (context) => {
-          if (context.conditions?.reduceMotion) return;
+          const motion = resolveMotionConfig(context.conditions);
 
           if (!hasInteractedRef.current) {
             gsap.from(".testimonial-card", {
-              y: 22,
+              y: motion.reduced ? 6 : 22,
               autoAlpha: 0,
-              duration: 0.55,
-              stagger: 0.09,
+              duration: motion.dur(0.55, 0.36),
+              stagger: motion.reduced ? 0.05 : 0.09,
               clearProps: "transform,opacity,visibility",
               scrollTrigger: {
                 trigger: cardsGridRef.current,
@@ -56,12 +56,12 @@ export function TestimonialsSection() {
           } else {
             gsap.fromTo(
               ".testimonial-card",
-              { y: 12, autoAlpha: 0 },
+              { y: motion.reduced ? 4 : 12, autoAlpha: 0 },
               {
                 y: 0,
                 autoAlpha: 1,
-                duration: 0.36,
-                stagger: 0.05,
+                duration: motion.dur(0.36, 0.25),
+                stagger: motion.reduced ? 0.03 : 0.05,
                 ease: "power3.out",
                 clearProps: "transform,opacity,visibility",
                 overwrite: true,
@@ -128,7 +128,7 @@ export function TestimonialsSection() {
           {visibleTestimonials.map((item) => (
             <div
               key={`${startIndex}-${item.id}`}
-              className="testimonial-card relative bg-[#F5F9F7] rounded-3xl p-7 shadow-card hover:shadow-card-hover border border-emerald-950/[0.07] hover:border-[#0FA942]/35 transition-all duration-300 flex flex-col justify-between group"
+              className="testimonial-card relative bg-[#F5F9F7] rounded-3xl p-7 shadow-card hover:shadow-card-hover border border-emerald-950/[0.07] hover:border-[#0FA942]/35 transition-[box-shadow,border-color] duration-300 flex flex-col justify-between group"
             >
               {/* Faint Quote Watermark */}
               <Quote className="absolute top-6 right-6 w-10 h-10 text-emerald-950/[0.05] pointer-events-none" />
