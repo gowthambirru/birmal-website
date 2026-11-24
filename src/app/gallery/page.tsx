@@ -157,7 +157,6 @@ export default function GalleryPage() {
                   alt={item.title}
                   fill
                   loading="eager"
-                  unoptimized
                   className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
                 />
                 {/* Overlay on Hover */}

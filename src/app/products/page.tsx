@@ -317,7 +317,6 @@ export default function ProductsPage() {
                     alt={step.title}
                     fill
                     loading="eager"
-                    unoptimized
                     className="object-cover"
                   />
                   <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-[#0FA942] text-white font-black text-lg flex items-center justify-center shadow-lg">
