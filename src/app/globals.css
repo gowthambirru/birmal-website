@@ -5,12 +5,10 @@
 :root {
   --brand-teal: #063B38;
   --brand-teal-dark: #053330;
+  --brand-teal-deep: #032422;
   --brand-green: #0FA942;
-  --brand-mint: #F4F7F6;
-}
-
-html {
-  scroll-behavior: smooth;
+  --brand-green-bright: #16C054;
+  --brand-mint: #F5F9F7;
 }
 
 body {
@@ -18,65 +16,98 @@ body {
   background-color: #FFFFFF;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #053330;
+  background: #042826;
 }
 ::-webkit-scrollbar-thumb {
   background: #0FA942;
-  border-radius: 5px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #16A34A;
 }
 
-/* Floating animation for bubbles */
-@keyframes floatBubble {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.35;
+/* Tactile button shimmer & micro-press utilities (GPU compositor-only) */
+.btn-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 260ms ease;
+}
+
+.btn-interactive:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-interactive::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    pointer-events: none;
   }
-  50% {
-    transform: translateY(-25px) rotate(180deg);
-    opacity: 0.6;
+
+  .btn-interactive:hover {
+    transform: translateY(-2px);
   }
-  100% {
-    transform: translateY(0px) rotate(360deg);
-    opacity: 0.35;
+
+  .btn-interactive:hover::after {
+    transform: translateX(120%);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
-.animate-bubble-slow {
-  animation: floatBubble 8s ease-in-out infinite;
+/* Refined botanical architectural grid (ultra-subtle, zero noise) */
+.bg-architectural-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-.animate-bubble-fast {
-  animation: floatBubble 5s ease-in-out infinite;
-}
-
-/* Diagonal green stripes pattern */
-.bg-diagonal-stripes {
-  background-image: repeating-linear-gradient(
-    45deg,
-    #0FA942,
-    #0FA942 2px,
-    transparent 2px,
-    transparent 12px
-  );
-}
-
-/* Dotted map texture overlay */
 .bg-dots-pattern {
-  background-image: radial-gradient(rgba(15, 169, 66, 0.25) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(15, 169, 66, 0.16) 1.25px, transparent 1.25px);
+  background-size: 26px 26px;
 }
 
 .bg-dots-pattern-white {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.25px, transparent 1.25px);
+  background-size: 26px 26px;
+}
+
+/* Hairline botanical divider */
+.editorial-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(15, 169, 66, 0.25) 25%,
+    rgba(6, 59, 56, 0.22) 50%,
+    rgba(15, 169, 66, 0.25) 75%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-interactive,
+  .btn-interactive::after {
+    transition: none !important;
+    transform: none !important;
+  }
 }

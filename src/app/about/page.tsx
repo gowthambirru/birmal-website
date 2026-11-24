@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import { BRAND_CONFIG } from "@/config/brand";
-import { WaveDivider } from "@/components/WaveDivider";
+import { PageHeroBanner } from "@/components/PageHeroBanner";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { ShieldCheck, Sparkles, Award, HeartHandshake, Leaf, ArrowRight } from "lucide-react";
+import { ShieldCheck, Sparkles, HeartHandshake, Leaf } from "lucide-react";
 
 export const metadata = {
   title: `About Us | ${BRAND_CONFIG.name} by Birrumalae Pharma`,
@@ -14,21 +14,25 @@ export const metadata = {
 export default function AboutPage() {
   const pillars = [
     {
+      num: "01",
       icon: ShieldCheck,
       title: "Pharmaceutical Standards",
       desc: "Engineered under the rigorous chemical quality controls of Birrumalae Pharma Private Limited to deliver reliable 99.9% germ protection.",
     },
     {
+      num: "02",
       icon: Leaf,
       title: "Natural Pine Extracts",
       desc: "Infused with genuine pine essential oils rather than harsh artificial masking agents, leaving homes invigoratingly crisp for hours.",
     },
     {
+      num: "03",
       icon: Sparkles,
       title: "Surface Protection",
       desc: "pH-neutral and non-corrosive. Preserves the natural sheen of Italian marble, granite, vitrified tile, and hardwood without etching.",
     },
     {
+      num: "04",
       icon: HeartHandshake,
       title: "Unmatched Economy",
       desc: "Our concentrated formula delivers maximum cleaning value: 1 Litre produces up to 100+ litres of solution, drastically cutting packaging waste.",
@@ -37,66 +41,64 @@ export default function AboutPage() {
 
   return (
     <div className="w-full bg-white">
-      {/* Hero Banner */}
-      <section className="relative bg-[#063B38] text-white pt-14 pb-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4 max-w-3xl">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
-            OUR HERITAGE &amp; MISSION
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
-            About BIRMAL &amp; Birrumalae Pharma
-          </h1>
-          <p className="text-base text-teal-100/90 leading-relaxed font-normal">
-            Delivering powerful, concentrated, and safe home hygiene solutions across India with pharmaceutical precision.
-          </p>
-        </div>
-        <WaveDivider fillColor="#FFFFFF" bgColor="transparent" className="mt-8" />
-      </section>
+      <PageHeroBanner
+        eyebrow="OUR HERITAGE & MISSION"
+        title="About BIRMAL & Birrumalae Pharma"
+        description="Delivering powerful, concentrated, and safe home hygiene solutions across India with pharmaceutical precision."
+      />
 
       {/* Brand Story Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <ScrollReveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Photos */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative h-80 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-[#0FA942]">
-              <Image
-                src="/images/lifestyle/about-indoor.webp"
-                alt="BIRMAL Sparkling Clean Interior"
-                fill
-                className="object-cover"
-              />
+          <div className="reveal-item lg:col-span-6 relative pb-8 sm:pb-10">
+            <div className="relative h-80 sm:h-96 rounded-3xl overflow-hidden shadow-editorial ring-1 ring-emerald-950/10 bg-white p-2">
+              <div className="relative w-full h-full rounded-[1.15rem] overflow-hidden">
+                <Image
+                  src="/images/lifestyle/about-indoor.webp"
+                  alt="BIRMAL Sparkling Clean Interior"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
-            <div className="absolute -bottom-8 -right-6 w-3/5 h-48 sm:h-56 rounded-2xl overflow-hidden shadow-xl border-4 border-white hidden sm:block">
-              <Image
-                src="/images/lifestyle/about-balcony.webp"
-                alt="Balcony Cleaning"
-                fill
-                className="object-cover"
-              />
+            <div className="absolute -bottom-2 -right-2 sm:-bottom-6 sm:-right-4 w-3/5 h-44 sm:h-52 rounded-2xl overflow-hidden shadow-editorial ring-1 ring-emerald-950/10 bg-white p-1.5 hidden sm:block">
+              <div className="relative w-full h-full rounded-[0.9rem] overflow-hidden">
+                <Image
+                  src="/images/lifestyle/about-balcony.webp"
+                  alt="Balcony Cleaning"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
 
           {/* Text Story */}
           <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
-              — THE BIRMAL PROMISE
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
-              Science-Backed Cleaning For Modern Homes
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-              BIRMAL was established under <strong>{BRAND_CONFIG.companyLegalName}</strong> (Hyderabad, Telangana) to address a significant dilemma in household hygiene: ordinary surface phenyls are mostly water, contain harsh synthetic scents, and can damage sensitive stone floors.
+            <div className="reveal-item">
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#0FA942] mb-2">
+                <span className="w-7 h-[2px] bg-[#0FA942] rounded-full" />
+                <span>THE BIRMAL PROMISE</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-[#063B38] tracking-[-0.02em] leading-[1.15]">
+                Science-Backed Cleaning For Modern Homes
+              </h2>
+            </div>
+
+            <p className="reveal-item text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
+              BIRMAL was established under <strong className="text-gray-900">{BRAND_CONFIG.companyLegalName}</strong> (Hyderabad, Telangana) to address a significant dilemma in household hygiene: ordinary surface phenyls are mostly water, contain harsh synthetic scents, and can damage sensitive stone floors.
             </p>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
+            <p className="reveal-item text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
               Our chemists created an active pine concentrate that requires just two caps to clean an entire residence. It lifts grease, kills 99.9% of bacteria, repels flies naturally, and air-dries into a spotless mirror finish without toxic residues.
             </p>
 
-            <div className="p-4 rounded-2xl bg-emerald-50 border-l-4 border-[#0FA942] space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#0FA942]">
+            <div className="reveal-item p-5 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 border-l-4 border-l-[#0FA942] space-y-1.5 shadow-sm">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-[#0FA942] block">
                 Official Corporate Identity
               </span>
               <p className="text-xs text-gray-700">
-                Registered under CIN: <strong>{BRAND_CONFIG.cin}</strong> | PAN: <strong>{BRAND_CONFIG.pan}</strong>
+                Registered under CIN: <strong className="text-gray-900">{BRAND_CONFIG.cin}</strong> | PAN: <strong className="text-gray-900">{BRAND_CONFIG.pan}</strong>
               </p>
               <p className="text-xs text-gray-600">
                 Manufacturing Unit: {BRAND_CONFIG.contacts.address.full}
@@ -104,16 +106,16 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* 4 Core Pillars Grid */}
-      <section className="bg-[#F4F7F6] py-20 border-t border-b border-gray-200">
+      <ScrollReveal className="bg-[#F5F9F7] py-20 border-t border-b border-emerald-950/[0.07]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
+          <div className="reveal-item text-center max-w-2xl mx-auto space-y-3 mb-14">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/80 text-[#0D8F38] text-[11px] font-extrabold uppercase tracking-[0.14em]">
               OUR PILLARS
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-[#063B38] tracking-[-0.02em]">
               Why We Formulate Differently
             </h2>
           </div>
@@ -124,12 +126,15 @@ export default function AboutPage() {
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3 hover:shadow-lg transition-shadow"
+                  className="reveal-item group relative bg-white rounded-3xl p-6 shadow-card hover:shadow-card-hover border border-emerald-950/[0.08] hover:border-[#0FA942]/35 space-y-3 transition-all duration-300 md:hover:-translate-y-1"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-emerald-100 text-[#0FA942] flex items-center justify-center">
-                    <Icon className="w-6 h-6 stroke-[2.2]" />
+                  <span className="absolute top-5 right-5 text-2xl font-black text-emerald-950/[0.05] tabular-nums">
+                    {pil.num}
+                  </span>
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-500/20 text-[#0FA942] flex items-center justify-center group-hover:bg-[#0FA942] group-hover:text-white transition-colors duration-300">
+                    <Icon className="w-6 h-6 stroke-[2]" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900">{pil.title}</h3>
+                  <h3 className="text-lg font-extrabold text-gray-900">{pil.title}</h3>
                   <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
                     {pil.desc}
                   </p>
@@ -138,9 +143,8 @@ export default function AboutPage() {
             })}
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
-      {/* Embedded Testimonials */}
       <TestimonialsSection />
     </div>
   );

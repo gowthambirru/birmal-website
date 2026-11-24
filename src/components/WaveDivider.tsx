@@ -11,24 +11,24 @@ export function WaveDivider({
 }) {
   return (
     <div
-      className={`w-full overflow-hidden leading-none relative ${className}`}
+      className={`w-full overflow-hidden leading-none relative pointer-events-none select-none ${className}`}
       style={{ backgroundColor: bgColor }}
     >
       <svg
-        viewBox="0 0 1440 80"
+        viewBox="0 0 1440 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={`w-full h-10 md:h-16 lg:h-20 block ${flip ? "rotate-180" : ""}`}
+        className={`w-full h-8 md:h-12 lg:h-14 block ${flip ? "rotate-180" : ""}`}
         preserveAspectRatio="none"
       >
         <path
-          d="M0,0 C240,65 480,80 720,50 C960,20 1200,65 1440,25 L1440,80 L0,80 Z"
+          d="M0,12 C360,52 1080,52 1440,12 L1440,56 L0,56 Z"
           fill={fillColor}
+          opacity="0.22"
         />
         <path
-          d="M0,20 C320,70 640,40 960,60 C1200,75 1360,45 1440,35 L1440,80 L0,80 Z"
+          d="M0,22 C420,56 1020,56 1440,22 L1440,56 L0,56 Z"
           fill={fillColor}
-          opacity="0.3"
         />
       </svg>
     </div>

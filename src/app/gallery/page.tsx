@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { WaveDivider } from "@/components/WaveDivider";
-import { X, ZoomIn, Eye } from "lucide-react";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { PageHeroBanner } from "@/components/PageHeroBanner";
+import { X, Eye } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -16,6 +17,102 @@ interface GalleryItem {
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const modalCardRef = useRef<HTMLDivElement>(null);
+  const hasFilteredRef = useRef(false);
+
+  useEffect(() => {
+    if (!selectedImage) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedImage(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedImage]);
+
+  const handleCategoryChange = (cat: string) => {
+    hasFilteredRef.current = true;
+    setActiveCategory(cat);
+  };
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(
+        {
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+          isMobile: "(max-width: 767px)",
+          isDesktop: "(min-width: 768px)",
+        },
+        (context) => {
+          const { reduceMotion, isMobile } = context.conditions ?? {};
+          if (reduceMotion) return;
+
+          const cards = gsap.utils.toArray<HTMLElement>(".gallery-card", pageRef.current);
+          if (!cards.length) return;
+
+          if (!hasFilteredRef.current) {
+            gsap.set(cards, { autoAlpha: 0, y: isMobile ? 14 : 20, scale: 0.97 });
+            ScrollTrigger.batch(cards, {
+              start: "top 88%",
+              once: true,
+              onEnter: (batch) =>
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.48,
+                  stagger: 0.055,
+                  ease: "power3.out",
+                  clearProps: "transform,opacity,visibility",
+                  overwrite: true,
+                }),
+            });
+          } else {
+            gsap.fromTo(
+              cards,
+              { autoAlpha: 0, y: 14, scale: 0.96 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.36,
+                stagger: 0.04,
+                ease: "power3.out",
+                clearProps: "transform,opacity,visibility",
+                overwrite: true,
+              }
+            );
+            ScrollTrigger.refresh();
+          }
+        }
+      );
+    },
+    { scope: pageRef, dependencies: [activeCategory] }
+  );
+
+  useGSAP(
+    () => {
+      if (!selectedImage || !modalCardRef.current) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      gsap.fromTo(
+        modalCardRef.current,
+        { autoAlpha: 0, scale: 0.94, y: 12 },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.28,
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
+          overwrite: true,
+        }
+      );
+    },
+    { scope: pageRef, dependencies: [selectedImage] }
+  );
 
   const galleryItems: GalleryItem[] = [
     {
@@ -103,43 +200,33 @@ export default function GalleryPage() {
       : galleryItems.filter((item) => item.category === activeCategory);
 
   return (
-    <div className="w-full bg-white pb-24">
-      {/* Hero Header */}
-      <section className="relative bg-[#063B38] text-white pt-14 pb-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4 max-w-3xl">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
-            PRODUCT &amp; HYGIENE SHOWCASE
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
-            BIRMAL Gallery
-          </h1>
-          <p className="text-base text-teal-100/90 leading-relaxed font-normal">
-            Explore our studio pack shots, commercial bottle lineups, and gleaming streak-free cleaning results.
-          </p>
-
-          {/* Filter Tabs */}
-          <div className="pt-6 flex flex-wrap items-center justify-center gap-3">
-            {[
-              { id: "all", label: "ALL IMAGES" },
-              { id: "packs", label: "PRODUCT PACKS" },
-              { id: "lifestyle", label: "CLEANING LIFESTYLE" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveCategory(tab.id)}
-                className={`px-6 py-2.5 rounded-full text-xs font-black tracking-wider transition-all ${
-                  activeCategory === tab.id
-                    ? "bg-[#0FA942] text-white shadow-pill"
-                    : "bg-teal-900/60 text-teal-200 border border-teal-700/60 hover:bg-teal-800"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+    <div ref={pageRef} className="w-full bg-white pb-24">
+      <PageHeroBanner
+        eyebrow="PRODUCT & HYGIENE SHOWCASE"
+        title="BIRMAL Gallery"
+        description="Explore our studio pack shots, commercial bottle lineups, and gleaming streak-free cleaning results."
+      >
+        {/* Filter Tabs */}
+        <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+          {[
+            { id: "all", label: "ALL IMAGES" },
+            { id: "packs", label: "PRODUCT PACKS" },
+            { id: "lifestyle", label: "CLEANING LIFESTYLE" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleCategoryChange(tab.id)}
+              className={`px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wider transition-all duration-200 active:scale-95 ${
+                activeCategory === tab.id
+                  ? "bg-[#0FA942] text-white shadow-pill"
+                  : "bg-white/[0.08] text-teal-100 border border-white/20 hover:bg-white/[0.16]"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-        <WaveDivider fillColor="#FFFFFF" bgColor="transparent" className="mt-10" />
-      </section>
+      </PageHeroBanner>
 
       {/* Gallery Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -148,31 +235,31 @@ export default function GalleryPage() {
             <div
               key={item.id}
               onClick={() => setSelectedImage(item)}
-              className="group relative bg-[#F4F7F6] rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-200/80 flex flex-col justify-between"
+              className="gallery-card group relative bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 md:hover:-translate-y-1 cursor-pointer border border-emerald-950/10 flex flex-col justify-between"
             >
               {/* Image Container */}
-              <div className="relative w-full h-64 sm:h-72 p-4 flex items-center justify-center bg-white">
+              <div className="relative w-full h-64 sm:h-72 p-4 flex items-center justify-center bg-[#F8FBFA]">
                 <Image
                   src={item.src}
                   alt={item.title}
                   fill
                   loading="eager"
-                  className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                  className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                 />
                 {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-[#063B38]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white gap-2">
-                  <div className="w-10 h-10 rounded-full bg-[#0FA942] flex items-center justify-center shadow-lg">
+                <div className="absolute inset-0 bg-[#042826]/65 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center text-white gap-2.5">
+                  <div className="w-10 h-10 rounded-full bg-[#0FA942] flex items-center justify-center shadow-lg scale-90 group-hover:scale-100 transition-transform duration-200">
                     <Eye className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-wider">
+                  <span className="text-xs font-extrabold uppercase tracking-wider">
                     View Fullscreen
                   </span>
                 </div>
               </div>
 
               {/* Caption Card */}
-              <div className="p-4 bg-white border-t border-gray-100 space-y-1">
-                <h3 className="text-sm font-extrabold text-gray-900 group-hover:text-[#0FA942] transition-colors">
+              <div className="p-5 bg-white border-t border-emerald-950/[0.06] space-y-1">
+                <h3 className="text-sm font-extrabold text-[#063B38] group-hover:text-[#0FA942] transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-xs text-gray-500 leading-snug line-clamp-2">
@@ -187,17 +274,18 @@ export default function GalleryPage() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           onClick={() => setSelectedImage(null)}
         >
           <div
+            ref={modalCardRef}
             className="relative bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-gray-100 bg-[#F4F7F6]">
+            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-gray-100 bg-[#F5F9F7]">
               <div>
-                <h3 className="text-base sm:text-lg font-black text-gray-900">
+                <h3 className="text-base sm:text-lg font-black text-[#063B38]">
                   {selectedImage.title}
                 </h3>
                 <p className="text-xs text-gray-500">{selectedImage.description}</p>
@@ -205,7 +293,7 @@ export default function GalleryPage() {
               <button
                 onClick={() => setSelectedImage(null)}
                 aria-label="Close"
-                className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-[#0FA942] hover:text-white transition-colors"
+                className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center hover:bg-[#0FA942] hover:text-white active:scale-95 transition-all"
               >
                 <X className="w-5 h-5" />
               </button>

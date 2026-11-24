@@ -13,7 +13,7 @@ const config: Config = {
           teal: {
             DEFAULT: "#063B38",
             dark: "#053330",
-            deep: "#042624",
+            deep: "#032422",
             light: "#0A4E4A",
             border: "#0E5E5A",
           },
@@ -24,10 +24,10 @@ const config: Config = {
             bright: "#22C55E",
             surface: "#E8F7EE",
           },
-          topbar: "#102424",
+          topbar: "#0B2220",
           surface: {
             DEFAULT: "#FFFFFF",
-            mint: "#F4F7F6",
+            mint: "#F5F9F7",
             subtle: "#EBF2F0",
           },
           text: {
@@ -42,9 +42,11 @@ const config: Config = {
         sans: ["var(--font-jakarta)", "sans-serif"],
       },
       boxShadow: {
-        card: "0 10px 30px -5px rgba(6, 59, 56, 0.08)",
-        "card-hover": "0 20px 40px -5px rgba(6, 59, 56, 0.15)",
-        pill: "0 4px 15px rgba(15, 169, 66, 0.3)",
+        card: "0 10px 30px -8px rgba(6, 59, 56, 0.08), 0 1px 3px rgba(6, 59, 56, 0.04)",
+        "card-hover": "0 22px 44px -12px rgba(6, 59, 56, 0.16), 0 4px 10px rgba(6, 59, 56, 0.06)",
+        editorial: "0 24px 60px -15px rgba(3, 36, 34, 0.18)",
+        pill: "0 6px 20px -2px rgba(15, 169, 66, 0.35)",
+        "pill-hover": "0 10px 26px -2px rgba(15, 169, 66, 0.48)",
       },
     },
   },

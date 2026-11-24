@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BRAND_CONFIG, ProductSize } from "@/config/brand";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { BRAND_CONFIG } from "@/config/brand";
+import { MagneticButton } from "@/components/motion/MagneticButton";
 import {
   ChevronLeft,
   ChevronRight,
-  ArrowRight,
   ExternalLink,
   Coins,
   Layers,
@@ -22,15 +23,142 @@ export default function ProductsPage() {
   const [activeSizeIndex, setActiveSizeIndex] = useState<number>(2); // Default to 1 Litre (flagship)
   const [activeTabId, setActiveTabId] = useState<string>("economical");
 
+  const pageRef = useRef<HTMLDivElement>(null);
+  const bottleStageRef = useRef<HTMLDivElement>(null);
+  const priceTagRef = useRef<HTMLDivElement>(null);
+  const benefitPanelRef = useRef<HTMLDivElement>(null);
+  const hasSwitchedSizeRef = useRef(false);
+  const hasSwitchedTabRef = useRef(false);
+
   const currentProduct = products[activeSizeIndex];
 
+  const handleSizeSelect = (idx: number) => {
+    hasSwitchedSizeRef.current = true;
+    setActiveSizeIndex(idx);
+  };
+
   const handlePrev = () => {
+    hasSwitchedSizeRef.current = true;
     setActiveSizeIndex((prev) => (prev - 1 + products.length) % products.length);
   };
 
   const handleNext = () => {
+    hasSwitchedSizeRef.current = true;
     setActiveSizeIndex((prev) => (prev + 1) % products.length);
   };
+
+  const handleTabSelect = (id: string) => {
+    hasSwitchedTabRef.current = true;
+    setActiveTabId(id);
+  };
+
+  // Hero initial entrance + How-To-Use scroll choreography
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(
+        {
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+          isMobile: "(max-width: 767px)",
+          isDesktop: "(min-width: 768px)",
+        },
+        (context) => {
+          const { reduceMotion, isMobile } = context.conditions ?? {};
+          if (reduceMotion) return;
+
+          gsap.from(".prod-hero-stagger", {
+            y: isMobile ? 12 : 18,
+            autoAlpha: 0,
+            duration: 0.5,
+            stagger: 0.07,
+            clearProps: "transform,opacity,visibility",
+          });
+
+          const stepRows = gsap.utils.toArray<HTMLElement>(".usage-step-row", pageRef.current);
+          gsap.set(stepRows, { autoAlpha: 0, y: isMobile ? 16 : 24 });
+          ScrollTrigger.batch(stepRows, {
+            start: "top 86%",
+            once: true,
+            onEnter: (batch) =>
+              gsap.to(batch, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.55,
+                stagger: 0.12,
+                ease: "power3.out",
+                clearProps: "transform,opacity,visibility",
+                overwrite: true,
+              }),
+          });
+        }
+      );
+    },
+    { scope: pageRef }
+  );
+
+  // Smooth GSAP pack bottle transition on size switch
+  useGSAP(
+    () => {
+      if (!hasSwitchedSizeRef.current) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      if (bottleStageRef.current) {
+        gsap.fromTo(
+          bottleStageRef.current,
+          { autoAlpha: 0.2, scale: 0.93, y: 10 },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.36,
+            ease: "back.out(1.4)",
+            clearProps: "transform,opacity,visibility",
+            overwrite: true,
+          }
+        );
+      }
+
+      if (priceTagRef.current) {
+        gsap.fromTo(
+          priceTagRef.current,
+          { y: -4, autoAlpha: 0.4 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.25,
+            ease: "power2.out",
+            clearProps: "transform,opacity,visibility",
+            overwrite: true,
+          }
+        );
+      }
+    },
+    { scope: pageRef, dependencies: [activeSizeIndex] }
+  );
+
+  // Smooth GSAP spotlight transition on benefit tab switch
+  useGSAP(
+    () => {
+      if (!hasSwitchedTabRef.current || !benefitPanelRef.current) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      gsap.fromTo(
+        benefitPanelRef.current,
+        { autoAlpha: 0, y: 12 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.35,
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
+          overwrite: true,
+        }
+      );
+    },
+    { scope: pageRef, dependencies: [activeTabId] }
+  );
 
   const activeBenefit =
     BRAND_CONFIG.benefitTabs.find((t) => t.id === activeTabId) ||
@@ -51,30 +179,43 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="w-full bg-white pb-24">
+    <div ref={pageRef} className="w-full bg-white pb-24">
       {/* 1. TOP PRODUCT HERO (2-COLUMN) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column (6 cols): Studio Bottle Container with Carousel Controls */}
-          <div className="lg:col-span-6">
-            <div className="relative bg-[#F4F7F6] rounded-3xl p-6 sm:p-10 flex items-center justify-center min-h-[420px] sm:min-h-[500px] border border-gray-200/80 shadow-inner group">
+          <div className="prod-hero-stagger lg:col-span-6">
+            <div className="relative bg-gradient-to-br from-[#F5F9F7] to-[#EAF3EE] rounded-3xl p-6 sm:p-10 flex items-center justify-center min-h-[420px] sm:min-h-[500px] border border-emerald-950/10 shadow-card overflow-hidden group">
+              {/* Subtle radial studio spotlight */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 52%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)",
+                }}
+              />
+
               {/* Prev Button */}
               <button
                 onClick={handlePrev}
                 aria-label="Previous product"
-                className="absolute left-4 z-20 w-11 h-11 rounded-full bg-white text-gray-800 shadow-md border border-gray-200 flex items-center justify-center hover:bg-[#0FA942] hover:text-white transition-colors"
+                className="btn-interactive absolute left-4 z-20 w-11 h-11 rounded-full bg-white text-[#063B38] shadow-md border border-emerald-950/10 flex items-center justify-center hover:bg-[#0FA942] hover:text-white hover:border-[#0FA942]"
               >
-                <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                <ChevronLeft className="w-5 h-5 stroke-[2.2]" />
               </button>
 
               {/* Product Bottle Image */}
-              <div className="relative w-full h-[320px] sm:h-[420px] flex items-center justify-center">
+              <div
+                ref={bottleStageRef}
+                className="relative z-10 w-full h-[320px] sm:h-[420px] flex items-center justify-center"
+              >
                 <Image
                   src={currentProduct.image}
                   alt={currentProduct.name}
                   fill
                   priority
-                  className="object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.12)] transition-all duration-300"
+                  className="object-contain drop-shadow-[0_22px_28px_rgba(6,59,56,0.16)]"
                 />
               </div>
 
@@ -82,35 +223,52 @@ export default function ProductsPage() {
               <button
                 onClick={handleNext}
                 aria-label="Next product"
-                className="absolute right-4 z-20 w-11 h-11 rounded-full bg-white text-gray-800 shadow-md border border-gray-200 flex items-center justify-center hover:bg-[#0FA942] hover:text-white transition-colors"
+                className="btn-interactive absolute right-4 z-20 w-11 h-11 rounded-full bg-white text-[#063B38] shadow-md border border-emerald-950/10 flex items-center justify-center hover:bg-[#0FA942] hover:text-white hover:border-[#0FA942]"
               >
-                <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                <ChevronRight className="w-5 h-5 stroke-[2.2]" />
               </button>
 
               {/* Badge */}
               {currentProduct.badge && (
-                <div className="absolute top-6 left-6 px-3.5 py-1 rounded-full bg-[#0FA942] text-white text-xs font-bold uppercase tracking-wider shadow-sm">
+                <div className="absolute top-6 left-6 z-20 px-3.5 py-1 rounded-full bg-[#063B38] text-white text-[11px] font-extrabold uppercase tracking-wider shadow-sm border border-emerald-400/30">
                   {currentProduct.badge}
                 </div>
               )}
+
+              {/* Subtle SKU dot switcher */}
+              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+                {products.map((p, idx) => (
+                  <button
+                    key={p.id}
+                    onClick={() => handleSizeSelect(idx)}
+                    aria-label={`Select ${p.volume}`}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      idx === activeSizeIndex
+                        ? "w-6 bg-[#0FA942]"
+                        : "w-2 bg-emerald-950/20 hover:bg-emerald-950/40"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Right Column (6 cols): Product Description, Size Selector & Actions */}
           <div className="lg:col-span-6 space-y-6">
-            <div>
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#0FA942] block mb-1">
-                PREMIUM HOME HYGIENE
-              </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+            <div className="prod-hero-stagger">
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#0FA942] mb-1.5">
+                <span className="w-6 h-[2px] bg-[#0FA942] rounded-full" />
+                <span>PREMIUM HOME HYGIENE</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#063B38] tracking-[-0.02em] leading-[1.12]">
                 {BRAND_CONFIG.fullName}
               </h1>
             </div>
 
             {/* 3 Crisp Paragraphs */}
-            <div className="space-y-3 text-sm text-gray-600 leading-relaxed font-normal">
+            <div className="prod-hero-stagger space-y-3 text-sm text-gray-600 leading-relaxed font-normal">
               <p>
-                <strong>{BRAND_CONFIG.name} Multipurpose Cleaner</strong> is an advanced active concentrate engineered to tackle grease, dirt, stubborn stains, and bacteria from all hard surfaces. Safe on skin and highly economical, just 1 litre of concentrate makes over 100 litres of ready-to-use floor cleaning solution.
+                <strong className="text-gray-900">{BRAND_CONFIG.name} Multipurpose Cleaner</strong> is an advanced active concentrate engineered to tackle grease, dirt, stubborn stains, and bacteria from all hard surfaces. Safe on skin and highly economical, just 1 litre of concentrate makes over 100 litres of ready-to-use floor cleaning solution.
               </p>
               <p>
                 Formulated with a balanced, surface-neutral pH level, making it 100% safe for daily use on expensive Italian marble, granite, ceramic tiles, and hardwood laminate without leaving dulling residue or damaging gloss.
@@ -121,7 +279,7 @@ export default function ProductsPage() {
             </div>
 
             {/* Interactive Size Selector Pills ("Available:") */}
-            <div className="pt-2 border-t border-gray-100">
+            <div className="prod-hero-stagger pt-3 border-t border-gray-100">
               <label className="text-xs font-black uppercase tracking-wider text-gray-900 block mb-3">
                 Available Pack Sizes:
               </label>
@@ -131,10 +289,10 @@ export default function ProductsPage() {
                   return (
                     <button
                       key={p.id}
-                      onClick={() => setActiveSizeIndex(idx)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-extrabold tracking-wider transition-all duration-200 border ${
+                      onClick={() => handleSizeSelect(idx)}
+                      className={`px-5 py-2.5 rounded-full text-xs font-extrabold tracking-wider transition-all duration-200 border active:scale-95 ${
                         isActive
-                          ? "bg-[#0FA942] text-white border-[#0FA942] shadow-pill scale-105"
+                          ? "bg-[#0FA942] text-white border-[#0FA942] shadow-pill"
                           : "bg-white text-gray-700 border-gray-200 hover:border-[#0FA942] hover:text-[#0FA942]"
                       }`}
                     >
@@ -145,18 +303,21 @@ export default function ProductsPage() {
               </div>
 
               {/* Selected SKU Quick Info */}
-              <div className="mt-4 p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/60 flex items-center justify-between text-xs">
+              <div
+                ref={priceTagRef}
+                className="mt-4 p-4 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 flex items-center justify-between gap-4 text-xs shadow-sm"
+              >
                 <div>
-                  <span className="font-bold text-gray-900 block">
+                  <span className="font-extrabold text-[#063B38] block text-sm">
                     {currentProduct.name}
                   </span>
-                  <span className="text-gray-500">{currentProduct.bestFor}</span>
+                  <span className="text-gray-500 font-medium">{currentProduct.bestFor}</span>
                 </div>
-                <div className="text-right">
-                  <span className="text-gray-400 line-through mr-1">
+                <div className="text-right shrink-0">
+                  <span className="text-gray-400 line-through mr-1.5 tabular-nums">
                     ₹{Math.round(currentProduct.mrp * 1.15)}
                   </span>
-                  <span className="text-base font-black text-[#0FA942]">
+                  <span className="text-lg font-black text-[#0FA942] tabular-nums">
                     ₹{currentProduct.mrp}
                   </span>
                 </div>
@@ -164,20 +325,22 @@ export default function ProductsPage() {
             </div>
 
             {/* Action Buttons: Contact Us, Flipkart, Amazon */}
-            <div className="pt-2 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-bold tracking-wider uppercase hover:bg-[#0FA942] transition-colors shadow-sm"
-              >
-                <span>CONTACT US</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
+            <div className="prod-hero-stagger pt-2 flex flex-wrap gap-3">
+              <MagneticButton>
+                <Link
+                  href="/contact"
+                  className="btn-interactive inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-extrabold tracking-wider uppercase hover:bg-[#0FA942] shadow-sm group"
+                >
+                  <span>CONTACT US</span>
+                  <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </Link>
+              </MagneticButton>
 
               <a
                 href={BRAND_CONFIG.marketplace.flipkartUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-bold tracking-wider uppercase hover:bg-[#2874F0] transition-colors shadow-sm"
+                className="btn-interactive inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-extrabold tracking-wider uppercase hover:bg-[#2874F0] shadow-sm"
               >
                 <span>FLIPKART</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -187,7 +350,7 @@ export default function ProductsPage() {
                 href={BRAND_CONFIG.marketplace.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-bold tracking-wider uppercase hover:bg-[#FF9900] hover:text-black transition-colors shadow-sm"
+                className="btn-interactive inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#063B38] text-white text-xs font-extrabold tracking-wider uppercase hover:bg-[#FF9900] hover:text-black shadow-sm"
               >
                 <span>AMAZON</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -195,14 +358,14 @@ export default function ProductsPage() {
             </div>
 
             {/* Social Share Icons */}
-            <div className="pt-4 flex items-center gap-3 text-xs text-gray-500 border-t border-gray-100">
+            <div className="prod-hero-stagger pt-4 flex items-center gap-3 text-xs text-gray-500 border-t border-gray-100">
               <span className="font-semibold text-gray-700">Share with friends:</span>
               <div className="flex items-center gap-2">
                 <a
                   href={`https://wa.me/?text=Check%20out%20BIRMAL%20Floor%20Cleaner%20-%20https://birmal.in/products`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-7 h-7 rounded-full bg-emerald-100 text-[#0FA942] flex items-center justify-center hover:bg-[#0FA942] hover:text-white transition-colors"
+                  className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-500/20 text-[#0FA942] flex items-center justify-center hover:bg-[#0FA942] hover:text-white transition-colors"
                   aria-label="Share on WhatsApp"
                 >
                   <Share2 className="w-3.5 h-3.5" />
@@ -214,21 +377,21 @@ export default function ProductsPage() {
       </section>
 
       {/* 2. 4-TAB BENEFITS SECTION */}
-      <section className="bg-[#F4F7F6] py-16 sm:py-20 border-t border-b border-gray-200/80">
+      <section className="bg-[#F5F9F7] py-16 sm:py-20 border-t border-b border-emerald-950/[0.08]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 4 Interactive Tab Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
             {BRAND_CONFIG.benefitTabs.map((tab) => {
               const isActive = tab.id === activeTabId;
               const Icon = getTabIcon(tab.id);
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTabId(tab.id)}
-                  className={`p-5 rounded-2xl flex flex-col items-center justify-center text-center gap-2.5 transition-all duration-300 shadow-sm border ${
+                  onClick={() => handleTabSelect(tab.id)}
+                  className={`p-5 rounded-2xl flex flex-col items-center justify-center text-center gap-2.5 transition-all duration-300 border active:scale-[0.98] ${
                     isActive
-                      ? "bg-[#0FA942] text-white border-[#0FA942] shadow-lg scale-102"
-                      : "bg-white text-gray-700 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50"
+                      ? "bg-[#0FA942] text-white border-[#0FA942] shadow-pill scale-[1.02]"
+                      : "bg-white text-gray-700 border-emerald-950/10 hover:border-[#0FA942]/40 hover:bg-emerald-50/40 shadow-card"
                   }`}
                 >
                   <Icon
@@ -244,10 +407,13 @@ export default function ProductsPage() {
             })}
           </div>
 
-          {/* Split Content Panel below tabs */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-100 overflow-hidden">
-            {/* Left side (7 cols): Green Curved-Edge Content Card */}
-            <div className="lg:col-span-7 bg-[#0FA942] text-white rounded-2xl p-8 sm:p-10 space-y-4 shadow-md">
+          {/* Split Content Panel below tabs (GSAP animated) */}
+          <div
+            ref={benefitPanelRef}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl p-6 sm:p-10 shadow-card border border-emerald-950/[0.08] overflow-hidden"
+          >
+            {/* Left side (7 cols): Botanical Green Content Card */}
+            <div className="lg:col-span-7 bg-gradient-to-br from-[#0D8F38] to-[#0FA942] text-white rounded-2xl p-8 sm:p-10 space-y-4 shadow-md">
               <span className="text-xs font-black uppercase tracking-widest text-emerald-100">
                 BENEFIT SPOTLIGHT
               </span>
@@ -274,20 +440,20 @@ export default function ProductsPage() {
                 src={activeBenefit.image}
                 alt={activeBenefit.title}
                 fill
-                className="object-cover transition-all duration-500"
+                className="object-cover"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. HOW TO USE SECTION ("Using Birmal Concentrated Floor Cleaner") */}
+      {/* 3. HOW TO USE SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
         <div className="text-center max-w-2xl mx-auto space-y-2 mb-16">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
-            — HOW TO USE —
+          <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/80 text-[#0D8F38] text-[11px] font-extrabold uppercase tracking-[0.14em]">
+            HOW TO USE
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-black text-[#063B38] tracking-[-0.02em]">
             Using Birmal Concentrated Floor Cleaner
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
@@ -302,25 +468,25 @@ export default function ProductsPage() {
             return (
               <div
                 key={step.step}
-                className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
-                  isEven ? "lg:flex-row-reverse" : ""
-                }`}
+                className="usage-step-row grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
               >
                 {/* Image (6 cols) */}
                 <div
-                  className={`lg:col-span-6 relative h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-xl border-4 border-[#0FA942]/20 ${
+                  className={`lg:col-span-6 relative h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-editorial ring-1 ring-emerald-950/10 bg-white p-2 ${
                     isEven ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    fill
-                    loading="eager"
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-[#0FA942] text-white font-black text-lg flex items-center justify-center shadow-lg">
-                    {step.step}
+                  <div className="relative w-full h-full rounded-[1.15rem] overflow-hidden">
+                    <Image
+                      src={step.image}
+                      alt={step.title}
+                      fill
+                      loading="eager"
+                      className="object-cover"
+                    />
+                    <div className="absolute top-4 left-4 w-11 h-11 rounded-2xl bg-[#063B38]/90 backdrop-blur-sm text-white font-black text-base flex items-center justify-center shadow-lg border border-emerald-400/30 tabular-nums">
+                      0{step.step}
+                    </div>
                   </div>
                 </div>
 
@@ -330,16 +496,16 @@ export default function ProductsPage() {
                     isEven ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  <div className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-[#0FA942] text-xs font-extrabold uppercase tracking-wider">
+                  <div className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/80 text-[#0D8F38] text-[11px] font-extrabold uppercase tracking-wider">
                     Step {step.step} of 3
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-black text-[#063B38] tracking-tight">
                     {step.title}
                   </h3>
                   <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                     {step.description}
                   </p>
-                  <div className="p-3.5 rounded-xl bg-gray-50 border-l-4 border-[#0FA942] text-xs font-medium text-gray-700">
+                  <div className="p-4 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 border-l-4 border-l-[#0FA942] text-xs font-semibold text-gray-700">
                     {step.note}
                   </div>
                 </div>

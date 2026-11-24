@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { BRAND_CONFIG } from "@/config/brand";
-import { WaveDivider } from "@/components/WaveDivider";
+import { PageHeroBanner } from "@/components/PageHeroBanner";
 import {
   Phone,
   Mail,
@@ -10,7 +11,6 @@ import {
   Clock,
   Send,
   CheckCircle2,
-  Building,
   ShieldCheck,
   MessageCircle,
 } from "lucide-react";
@@ -26,46 +26,80 @@ export default function ContactPage() {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".contact-col", {
+          y: 18,
+          autoAlpha: 0,
+          duration: 0.55,
+          stagger: 0.1,
+          clearProps: "transform,opacity,visibility",
+          scrollTrigger: {
+            trigger: ".contact-grid",
+            start: "top 86%",
+            once: true,
+          },
+        });
+      });
+    },
+    { scope: pageRef }
+  );
+
+  useGSAP(
+    () => {
+      if (!submitted || !successRef.current) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      gsap.fromTo(
+        successRef.current,
+        { autoAlpha: 0, scale: 0.94, y: 12 },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.4,
+          ease: "back.out(1.5)",
+          clearProps: "transform,opacity,visibility",
+        }
+      );
+    },
+    { scope: pageRef, dependencies: [submitted] }
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate swift submission
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
-    }, 600);
+    }, 550);
   };
 
   return (
-    <div className="w-full bg-white pb-24">
-      {/* Hero Header */}
-      <section className="relative bg-[#063B38] text-white pt-14 pb-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4 max-w-3xl">
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0FA942]">
-            GET IN TOUCH
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
-            Contact BIRMAL
-          </h1>
-          <p className="text-base text-teal-100/90 leading-relaxed font-normal">
-            Whether you are ordering for your household, seeking bulk institutional supply, or applying for regional distributorship, we are here to support you.
-          </p>
-        </div>
-        <WaveDivider fillColor="#FFFFFF" bgColor="transparent" className="mt-10" />
-      </section>
+    <div ref={pageRef} className="w-full bg-white pb-24">
+      <PageHeroBanner
+        eyebrow="GET IN TOUCH"
+        title="Contact BIRMAL"
+        description="Whether you are ordering for your household, seeking bulk institutional supply, or applying for regional distributorship, we are here to support you."
+      />
 
       {/* 2-Column Contact Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div className="contact-grid grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left Column (7 cols): Interactive Form */}
-          <div className="lg:col-span-7 bg-[#F4F7F6] rounded-3xl p-8 sm:p-12 border border-gray-200/80 shadow-sm">
+          <div className="contact-col lg:col-span-7 bg-[#F5F9F7] rounded-3xl p-8 sm:p-12 border border-emerald-950/10 shadow-card">
             {submitted ? (
-              <div className="text-center py-12 space-y-4 animate-in fade-in duration-300">
+              <div ref={successRef} className="text-center py-12 space-y-4">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-[#0FA942] flex items-center justify-center mx-auto shadow-md">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
-                <h3 className="text-2xl font-black text-gray-900">
+                <h3 className="text-2xl font-black text-[#063B38]">
                   Thank You, {formData.name}!
                 </h3>
                 <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
@@ -83,19 +117,19 @@ export default function ContactPage() {
                         message: "",
                       });
                     }}
-                    className="px-6 py-2.5 rounded-full bg-[#063B38] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#0FA942] transition-colors"
+                    className="btn-interactive px-6 py-2.5 rounded-full bg-[#063B38] text-white text-xs font-extrabold uppercase tracking-wider hover:bg-[#0FA942]"
                   >
                     Send Another Message
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form id="dealership" onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-[#0FA942] block mb-1">
+                  <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#0FA942] block mb-1">
                     ONLINE INQUIRY
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+                  <h2 className="text-2xl sm:text-3xl font-black text-[#063B38] tracking-tight">
                     Send Us a Message
                   </h2>
                 </div>
@@ -113,7 +147,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0FA942] shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-[#0FA942] focus:ring-2 focus:ring-[#0FA942]/30 shadow-sm transition-all"
                     />
                   </div>
 
@@ -129,7 +163,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0FA942] shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-[#0FA942] focus:ring-2 focus:ring-[#0FA942]/30 shadow-sm transition-all"
                     />
                   </div>
                 </div>
@@ -147,7 +181,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0FA942] shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-[#0FA942] focus:ring-2 focus:ring-[#0FA942]/30 shadow-sm transition-all"
                     />
                   </div>
 
@@ -160,7 +194,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, inquiryType: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0FA942] shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-[#0FA942] focus:ring-2 focus:ring-[#0FA942]/30 shadow-sm transition-all"
                     >
                       <option value="Retail Purchase">Retail Household Purchase</option>
                       <option value="Bulk Supply">Bulk Orders &amp; Commercial Supply</option>
@@ -182,14 +216,14 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0FA942] shadow-sm"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-sm focus:outline-none focus:border-[#0FA942] focus:ring-2 focus:ring-[#0FA942]/30 shadow-sm transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0FA942] text-white text-xs font-bold uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-pill disabled:opacity-50"
+                  className="btn-interactive w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0FA942] text-white text-xs font-extrabold uppercase tracking-wider hover:bg-[#0D8F38] shadow-pill disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                   <span>{loading ? "SUBMITTING..." : "SUBMIT INQUIRY"}</span>
@@ -199,13 +233,13 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column (5 cols): Corporate Details & Fast Contacts */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white rounded-3xl p-8 border-2 border-emerald-100 shadow-md space-y-6">
+          <div className="contact-col lg:col-span-5 space-y-6">
+            <div className="bg-white rounded-3xl p-8 border border-emerald-950/10 shadow-card space-y-6">
               <div>
-                <span className="text-xs font-black uppercase tracking-widest text-[#0FA942] block mb-1">
+                <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#0FA942] block mb-1">
                   OFFICIAL HEADQUARTERS
                 </span>
-                <h3 className="text-xl font-black text-gray-900">
+                <h3 className="text-xl font-black text-[#063B38]">
                   {BRAND_CONFIG.companyLegalName}
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -281,7 +315,7 @@ export default function ContactPage() {
                   href={BRAND_CONFIG.marketplace.whatsappOrderUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#0FA942] text-white text-xs font-bold uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-pill"
+                  className="btn-interactive w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#0FA942] text-white text-xs font-extrabold uppercase tracking-wider hover:bg-[#0D8F38] shadow-pill"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>CHAT INSTANTLY ON WHATSAPP</span>
@@ -290,8 +324,8 @@ export default function ContactPage() {
             </div>
 
             {/* Statutory Corporate Identifiers Box */}
-            <div className="p-5 rounded-2xl bg-teal-900/10 border border-teal-800/20 text-xs space-y-1.5 text-gray-700">
-              <div className="flex items-center gap-2 text-[#063B38] font-bold">
+            <div className="p-5 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 text-xs space-y-1.5 text-gray-700">
+              <div className="flex items-center gap-2 text-[#063B38] font-extrabold">
                 <ShieldCheck className="w-4 h-4 text-[#0FA942]" />
                 <span>Statutory Registrations</span>
               </div>
