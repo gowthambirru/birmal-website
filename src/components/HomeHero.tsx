@@ -111,7 +111,7 @@ export function HomeHero() {
               {/* Model Cutout Image */}
               <div className="relative z-10 w-full h-full flex items-end justify-center">
                 <Image
-                  src="/images/hero-model-birmal.png"
+                  src="/images/hero-model-birmal.webp"
                   alt="BIRMAL Floor Cleaner Brand Spokesperson"
                   width={460}
                   height={560}

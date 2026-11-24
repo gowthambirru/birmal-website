@@ -74,7 +74,7 @@ export function Header() {
           <Link href="/" className="flex items-center group py-1">
             <div className="relative w-40 sm:w-48 h-12 sm:h-14">
               <Image
-                src="/images/birmal-logo.png"
+                src="/images/birmal-logo.webp"
                 alt="BIRMAL Floor Cleaner"
                 fill
                 priority

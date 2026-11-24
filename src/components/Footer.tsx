@@ -64,7 +64,7 @@ export function Footer() {
             <Link href="/" className="inline-block group py-1">
               <div className="relative w-44 sm:w-52 h-16 sm:h-20 bg-white rounded-2xl p-2 shadow-xl border-2 border-emerald-400/30 group-hover:shadow-2xl group-hover:scale-105 transition-all duration-300">
                 <Image
-                  src="/images/birmal-logo.png"
+                  src="/images/birmal-logo.webp"
                   alt="BIRMAL Floor Cleaner"
                   fill
                   className="object-contain p-1"

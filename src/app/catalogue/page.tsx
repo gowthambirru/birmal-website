@@ -25,28 +25,28 @@ const CATALOGUE_PAGES = [
     pageNumber: 1,
     title: "Official Cover & Complete Portfolio",
     subtitle: "200ml • 500ml • 1 Litre • 5 Litres Lineup",
-    previewSrc: "/catalogue/previews/page_1.png",
+    previewSrc: "/catalogue/previews/page_1.webp",
     description: "Official cover with Birrumalae Pharma credentials, 2X concentrate claim, 99.9% germ protection, and flagship bottle lineup."
   },
   {
     pageNumber: 2,
     title: "Formulation Science & Application Guide",
     subtitle: "Natural Pine Chemistry, Neutral pH & Dilution SOP",
-    previewSrc: "/catalogue/previews/page_2.png",
+    previewSrc: "/catalogue/previews/page_2.webp",
     description: "Detailed breakdown of neutral pH 7.0 stability on Italian marble and granite, 4 core USPs, and 3-step dilution methodology."
   },
   {
     pageNumber: 3,
     title: "Retail Consumer Range",
     subtitle: "200ml, 500ml & 1L Packs with Full Descriptions",
-    previewSrc: "/catalogue/previews/page_3.png",
+    previewSrc: "/catalogue/previews/page_3.webp",
     description: "Complete showcase for 200ml Trial, 500ml Family, and 1L Flagship with 4-5 line descriptions, specs, and MRPs."
   },
   {
     pageNumber: 4,
     title: "Institutional 5L & Master Logistics",
     subtitle: "5 Litre Jerry Can, Freight Specifications & Plant Desk",
-    previewSrc: "/catalogue/previews/page_4.png",
+    previewSrc: "/catalogue/previews/page_4.webp",
     description: "5L commercial jerry can for high-footfall facilities, full Master Carton freight logistics table, and Mallapur Hyderabad headquarters."
   }
 ];
