@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none">
+  <rect x="25" y="14" width="28" height="32" rx="4" fill="#FFE11B"/>
+  <text x="32" y="38" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="24" fill="#2874F0">f</text>
+  <text x="64" y="38" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-style="italic" font-size="28" fill="#2874F0">Flipkart</text>
+</svg>

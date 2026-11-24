@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none">
+  <circle cx="38" cy="30" r="20" fill="#E52E2E"/>
+  <path d="M33 20 C40 25 40 35 33 40 M29 24 C34 27 34 33 29 36" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <text x="70" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="34" fill="#111827">udaan</text>
+</svg>

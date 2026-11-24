@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-teal: #063B38;
+  --brand-teal-dark: #053330;
+  --brand-green: #0FA942;
+  --brand-mint: #F4F7F6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #0F172A;
+  background-color: #FFFFFF;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #053330;
+}
+::-webkit-scrollbar-thumb {
+  background: #0FA942;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16A34A;
+}
+
+/* Floating animation for bubbles */
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-25px) rotate(180deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+    opacity: 0.35;
+  }
+}
+
+.animate-bubble-slow {
+  animation: floatBubble 8s ease-in-out infinite;
+}
+
+.animate-bubble-fast {
+  animation: floatBubble 5s ease-in-out infinite;
+}
+
+/* Diagonal green stripes pattern */
+.bg-diagonal-stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    #0FA942,
+    #0FA942 2px,
+    transparent 2px,
+    transparent 12px
+  );
+}
+
+/* Dotted map texture overlay */
+.bg-dots-pattern {
+  background-image: radial-gradient(rgba(15, 169, 66, 0.25) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.bg-dots-pattern-white {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
