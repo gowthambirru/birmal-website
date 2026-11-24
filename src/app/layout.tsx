@@ -13,6 +13,8 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://birmal.in"),
   title: `${BRAND_CONFIG.name} | Strong Concentrated Floor Cleaner — Pine Fresh`,
@@ -20,10 +22,10 @@ export const metadata: Metadata = {
     "BIRMAL Concentrated Floor Cleaner by Birrumalae Pharma. 2X tough on stains, 99.9% germ protection, safe on marble & granite, with natural long-lasting pine freshness.",
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon.png", type: "image/png" },
+      { url: `${basePath}/favicon.ico` },
+      { url: `${basePath}/favicon.png`, type: "image/png" },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: `${basePath}/apple-touch-icon.png`,
   },
   keywords: [
     "BIRMAL",

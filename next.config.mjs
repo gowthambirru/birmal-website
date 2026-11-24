@@ -10,7 +10,8 @@ const nextConfig = {
     NEXT_PUBLIC_BASE_PATH: isGithubPages ? `/${repoName}` : '',
   },
   images: {
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './src/image-loader.ts',
   },
   trailingSlash: true,
 };
