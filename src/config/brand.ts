@@ -62,9 +62,8 @@ export const BRAND_CONFIG = {
 
   // Contact Information
   contacts: {
-    primaryPhone: "+91 6300670550",
-    secondaryPhone: "+91 9912359793",
-    whatsappNumber: "+91 6300670550",
+    primaryPhone: "+91 9912359793",
+    whatsappNumber: "+91 9912359793",
     email: "info@birmal.in",
     corporateEmail: "birrumalaepharma@gmail.com",
     address: {
@@ -84,7 +83,7 @@ export const BRAND_CONFIG = {
     amazonUrl: "https://www.amazon.in",
     flipkartUrl: "https://www.flipkart.com",
     whatsappOrderUrl:
-      "https://wa.me/916300670550?text=Hi%2C%20I%20would%20like%20to%20order%20BIRMAL%20Floor%20Cleaner.",
+      "https://wa.me/919912359793?text=Hi%2C%20I%20would%20like%20to%20order%20BIRMAL%20Floor%20Cleaner.",
     dealershipInquiryUrl: "/contact#dealership",
   },
 
@@ -419,14 +418,14 @@ export const BRAND_CONFIG = {
       category: "Orders & Dealership",
       question: "What are the pack prices and retailer margin terms?",
       answer:
-        "Current GST-inclusive MRPs (effective 09-Nov-2026) are ₹70 for 200 ml, ₹170 for 500 ml, ₹330 for 1 Litre, and ₹1,450 for the 5 Litre bulk can. Registered retailers receive a 20% discount on MRP (landing rates: ₹56 for 200 ml, ₹136 for 500 ml, ₹264 for 1L, inclusive of 18% GST). Call +91 6300670550 or email birrumalaepharma@gmail.com for distributor orders.",
+        "Current GST-inclusive MRPs (effective 09-Nov-2026) are ₹70 for 200 ml, ₹170 for 500 ml, ₹330 for 1 Litre, and ₹1,450 for the 5 Litre bulk can. Registered retailers receive a 20% discount on MRP (landing rates: ₹56 for 200 ml, ₹136 for 500 ml, ₹264 for 1L, inclusive of 18% GST). Call +91 9912359793 or email birrumalaepharma@gmail.com for distributor orders.",
     },
     {
       id: "where-to-buy-online",
       category: "Orders & Dealership",
       question: "Where can I buy BIRMAL Floor Cleaner?",
       answer:
-        "You can pick up BIRMAL at supermarkets and cash & carry outlets like Reliance SMART, DMart, METRO, and Udaan, order on Amazon or Flipkart, or order directly on WhatsApp at +91 6300670550.",
+        "You can pick up BIRMAL at supermarkets and cash & carry outlets like Reliance SMART, DMart, METRO, and Udaan, order on Amazon or Flipkart, or order directly on WhatsApp at +91 9912359793.",
     },
   ] as FAQItem[],
 };

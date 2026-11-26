@@ -272,12 +272,12 @@ export default function ContactPage() {
                     <strong className="block text-gray-900 font-semibold text-xs uppercase tracking-wider mb-0.5">
                       Customer Care &amp; Sales Desk
                     </strong>
-                    <p className="text-xs sm:text-sm text-gray-800 font-bold">
+                    <a
+                      href={`tel:${BRAND_CONFIG.contacts.primaryPhone}`}
+                      className="text-xs sm:text-sm text-gray-800 font-bold hover:text-[#0FA942] transition-colors"
+                    >
                       {BRAND_CONFIG.contacts.primaryPhone}
-                    </p>
-                    <p className="text-xs sm:text-sm text-gray-600">
-                      {BRAND_CONFIG.contacts.secondaryPhone}
-                    </p>
+                    </a>
                   </div>
                 </div>
 

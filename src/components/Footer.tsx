@@ -121,13 +121,6 @@ export function Footer() {
                 >
                   {BRAND_CONFIG.contacts.primaryPhone}
                 </a>
-                <span className="text-teal-600">/</span>
-                <a
-                  href={`tel:${BRAND_CONFIG.contacts.secondaryPhone}`}
-                  className="hover:text-white transition-colors"
-                >
-                  {BRAND_CONFIG.contacts.secondaryPhone}
-                </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-emerald-200">
                 <Mail className="w-4 h-4 text-[#22C55E]" />
