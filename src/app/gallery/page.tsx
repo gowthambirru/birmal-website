@@ -136,10 +136,10 @@ export default function GalleryPage() {
     },
     {
       id: "real-batch",
-      title: "BIRMAL Shelf-Ready Bottles (Real Unit Photo)",
+      title: "BIRMAL Concentrated Bottles — Retail Showcase",
       category: "packs",
       src: "/images/products/birmal-bottles-real.webp",
-      description: "Tamper-evident green-capped bottles with BIRMAL pine concentrate labels ready for retail dispatch.",
+      description: "Tamper-evident green-capped bottles with pine fresh concentrate labels ready for retail shelves.",
     },
     {
       id: "1l",
