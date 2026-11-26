@@ -1,0 +1,5 @@
+# Convenience aliases and legacy subpath fallback
+/home / 301
+/product /products/ 301
+/birmal-website / 301
+/birmal-website/* /:splat 301

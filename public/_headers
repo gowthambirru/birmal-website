@@ -1,0 +1,45 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  X-XSS-Protection: 0
+  Cross-Origin-Opener-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/products/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/catalogue/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/about/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/where-to-buy/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/gallery/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/faq/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/contact/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/catalogue/*.pdf
+  Cache-Control: public, max-age=86400, stale-while-revalidate=3600
+
+/catalogue/previews/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

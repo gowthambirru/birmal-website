@@ -1,4 +1,4 @@
-const isGithubPages = process.env.GITHUB_PAGES === 'true' || process.env.GITHUB_ACTIONS === 'true';
+const isGithubPages = process.env.GITHUB_PAGES === 'true';
 const repoName = 'birmal-website';
 
 /** @type {import('next').NextConfig} */
