@@ -20,9 +20,9 @@ export default function WhereToBuyPage() {
   return (
     <div className="w-full bg-white pb-24">
       <PageHeroBanner
-        eyebrow="PURCHASE & DISTRIBUTION CHANNELS"
+        eyebrow="BUY ONLINE & IN STORES"
         title="Where To Buy BIRMAL"
-        description="Order authentic BIRMAL products online with doorstep delivery, or pick them up at leading supermarket shelves and cash & carry stores across India."
+        description="Order BIRMAL online for doorstep delivery, pick up packs at nearby supermarkets, or stock up for your retail shop."
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-20">
@@ -30,13 +30,13 @@ export default function WhereToBuyPage() {
         <ScrollReveal className="space-y-8">
           <div className="reveal-item text-center max-w-xl mx-auto space-y-2">
             <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/80 text-[#0D8F38] text-[11px] font-extrabold uppercase tracking-[0.14em]">
-              FAST HOME DELIVERY
+              HOME DELIVERY
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-[#063B38] tracking-[-0.02em]">
               Order Online
             </h2>
             <p className="text-sm text-gray-600">
-              Direct delivery to your doorstep across all serviceable Indian pin codes.
+              Available in 200 ml (₹70), 500 ml (₹170), 1 Litre (₹330), and 5 Litres (₹1,450).
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export default function WhereToBuyPage() {
                 </div>
                 <h3 className="text-xl font-extrabold text-gray-900">Amazon India</h3>
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Fast prime shipping, verified customer ratings, and flexible bundle pack options (1L + 500ml combo).
+                  Quick Prime delivery across India on single bottles and multi-pack household bundles.
                 </p>
               </div>
 
@@ -84,7 +84,7 @@ export default function WhereToBuyPage() {
                 </div>
                 <h3 className="text-xl font-extrabold text-gray-900">Flipkart</h3>
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Order with grocery savings, supercoin cashback, and prompt regional fulfillment across metro cities.
+                  Order through Flipkart Grocery with doorstep shipping across major towns and metro cities.
                 </p>
               </div>
 
@@ -109,7 +109,7 @@ export default function WhereToBuyPage() {
                   Direct WhatsApp Order
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Chat directly with our Hyderabad customer care team for instant dispatch, local COD in Telangana, or custom pack combinations.
+                  Message our Hyderabad dispatch desk directly for quick home delivery, local COD in Telangana, or 5L bulk cans.
                 </p>
               </div>
 
@@ -130,13 +130,13 @@ export default function WhereToBuyPage() {
         <ScrollReveal className="bg-[#F5F9F7] rounded-3xl p-8 sm:p-12 border border-emerald-950/[0.08]">
           <div className="reveal-item text-center max-w-xl mx-auto space-y-2 mb-10">
             <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100/80 text-[#0D8F38] text-[11px] font-extrabold uppercase tracking-[0.14em]">
-              PHYSICAL STORES &amp; CASH &amp; CARRY
+              SUPERMARKETS &amp; CASH &amp; CARRY
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-[#063B38] tracking-[-0.02em]">
               Retail Supermarkets &amp; Wholesale Hubs
             </h2>
             <p className="text-sm text-gray-600">
-              BIRMAL is steadily rolling out to leading grocery networks and institutional distributors.
+              Expanding across grocery chains and B2B cash-and-carry outlets.
             </p>
           </div>
 
@@ -176,11 +176,17 @@ export default function WhereToBuyPage() {
                   BUSINESS OPPORTUNITY
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-black text-white tracking-[-0.02em]">
-                  Become a BIRMAL Distributor or Stockist
+                  Stock BIRMAL at Your Store or Distribute in Your Area
                 </h2>
                 <p className="text-sm sm:text-base text-teal-100/85 leading-relaxed font-normal">
-                  We are expanding our retail footprint across Telangana, Andhra Pradesh, Karnataka, Maharashtra, and pan-India. Partner with Birrumalae Pharma for high-margin, fast-moving floor hygiene products with comprehensive promotional backing.
+                  Retailers get a flat <strong className="text-white">20% margin on MRP</strong> (GST-inclusive landing rates: 200 ml ₹56, 500 ml ₹136, 1 Litre ₹264 — w.e.f. 09-Nov-2026). Reach out for district distributorship and supermarket supply across South &amp; West India.
                 </p>
+                <Link
+                  href="/catalogue#retailer-prices"
+                  className="inline-block text-xs font-extrabold text-[#22C55E] hover:underline pt-1"
+                >
+                  View Full Retailer Price List &amp; GST Breakdown →
+                </Link>
               </div>
 
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">

@@ -50,10 +50,10 @@ export function Footer() {
             </div>
             <div>
               <div className="text-lg sm:text-xl font-black text-white tracking-tight">
-                100% Certified
+                Made in Hyderabad
               </div>
               <div className="text-[11px] uppercase font-bold tracking-widest text-emerald-100">
-                Quality Assurance
+                Birrumalae Pharma
               </div>
             </div>
           </div>
@@ -65,10 +65,10 @@ export function Footer() {
             </div>
             <div>
               <div className="text-lg sm:text-xl font-black text-white tracking-tight">
-                2X Power
+                200ml to 5L Packs
               </div>
               <div className="text-[11px] uppercase font-bold tracking-widest text-emerald-100">
-                Concentrated Formula
+                Home &amp; Commercial Sizes
               </div>
             </div>
           </div>
@@ -80,10 +80,10 @@ export function Footer() {
             </div>
             <div>
               <div className="text-lg sm:text-xl font-black text-white tracking-tight">
-                100% Safe
+                pH 7.0 Neutral
               </div>
               <div className="text-[11px] uppercase font-bold tracking-widest text-emerald-100">
-                Marble &amp; Family Safe
+                Safe for Marble &amp; Families
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function Footer() {
               <strong className="text-white block font-extrabold text-sm mb-1 tracking-wide">
                 {BRAND_CONFIG.companyLegalName}
               </strong>
-              Manufacturers &amp; Distributors of BIRMAL Brand Home Cleaning Products. Safe, concentrated cleaning solutions for every corner of your home.
+              Concentrated pine floor cleaners manufactured in Hyderabad for homes, offices, clinics, and retail partners across India.
             </p>
 
             <div className="space-y-2 pt-1">

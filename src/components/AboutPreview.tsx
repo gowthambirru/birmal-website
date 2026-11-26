@@ -12,10 +12,10 @@ export function AboutPreview() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const points = [
-    "Proven 99.9% Germ Kill Formula",
-    "Refreshing Natural Pine Aroma",
-    "Safe For Kids, Pets & Daily Floor Use",
-    "Effective On Vitrified Tiles, Marble, Granite & More",
+    "Clears 99.9% of everyday household germs",
+    "Crisp pine oil scent that stays fresh for hours",
+    "Safe for kids and pets once diluted and dry",
+    "Gentle pH 7.0 formula for marble, granite & tiles",
   ];
 
   useGSAP(
@@ -119,7 +119,7 @@ export function AboutPreview() {
                     2X Concentrate
                   </div>
                   <div className="text-[11px] text-emerald-200 font-semibold mt-0.5">
-                    Pharma-Grade Formulation
+                    1L Yields 100+ Litres
                   </div>
                 </div>
               </div>
@@ -134,18 +134,18 @@ export function AboutPreview() {
                 <span>ABOUT {BRAND_CONFIG.name}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mt-2.5 tracking-[-0.02em] leading-[1.15]">
-                India&apos;s Trusted{" "}
-                <span className="text-[#0FA942]">Home Cleaning Brand</span>
+                Concentrated Cleaning{" "}
+                <span className="text-[#0FA942]">Built for Indian Homes</span>
               </h2>
             </div>
 
             <p className="about-copy-stagger text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-              Formulated by <strong className="text-gray-900">{BRAND_CONFIG.companyLegalName}</strong>, BIRMAL Concentrated Floor Cleaner was developed to deliver pharmaceutical-grade hygiene into Indian households. Our advanced pine-active formulation removes stubborn dirt, grease, and unpleasant odors from all surfaces, keeping your spaces sparkling, safe, and pine fresh.
+              Manufactured by <strong className="text-gray-900">{BRAND_CONFIG.companyLegalName}</strong> in Hyderabad, BIRMAL replaces watery surface phenyls with a concentrated pine oil cleaner. You use less per bucket, cut oil and footprints faster, and avoid harsh chemical fumes indoors.
             </p>
 
             <div className="about-copy-stagger space-y-3 pt-1">
               <h3 className="text-base font-extrabold text-gray-900 tracking-tight">
-                Why Families Switch to BIRMAL
+                Why Households Switch to BIRMAL
               </h3>
               <ul className="grid grid-cols-1 gap-2.5">
                 {points.map((pt, i) => (

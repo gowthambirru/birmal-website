@@ -120,9 +120,9 @@ export default function FAQPage() {
   return (
     <div ref={pageRef} className="w-full bg-white pb-24">
       <PageHeroBanner
-        eyebrow="KNOWLEDGE BASE & HELP"
+        eyebrow="HELP & ANSWERS"
         title="Frequently Asked Questions"
-        description="Find answers to common questions about BIRMAL dilution ratios, marble safety, ingredients, and dealership partnerships."
+        description="Straightforward answers on dilution ratios, marble floor safety, updated pack MRPs, and retailer margins."
       >
         <div className="pt-3 max-w-xl mx-auto">
           <div className="relative">
@@ -224,10 +224,10 @@ export default function FAQPage() {
         {/* Support Help Card */}
         <div className="mt-16 bg-[#F5F9F7] rounded-3xl p-8 text-center border border-emerald-950/10 shadow-card space-y-4">
           <h3 className="text-xl font-black text-[#063B38]">
-            Still have questions about BIRMAL?
+            Still have a question?
           </h3>
           <p className="text-sm text-gray-600 max-w-md mx-auto font-normal">
-            Our customer hygiene advisory desk is ready to help with dilution questions, institutional contracts, and bulk distribution.
+            Call or message our Hyderabad team directly for dilution advice, retail pricing, or bulk supply.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">

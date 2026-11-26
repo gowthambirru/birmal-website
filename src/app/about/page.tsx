@@ -16,35 +16,35 @@ export default function AboutPage() {
     {
       num: "01",
       icon: ShieldCheck,
-      title: "Pharmaceutical Standards",
-      desc: "Engineered under the rigorous chemical quality controls of Birrumalae Pharma Private Limited to deliver reliable 99.9% germ protection.",
+      title: "Consistent Batch Quality",
+      desc: "Made in Hyderabad under Birrumalae Pharma's formulation controls for dependable 99.9% germ protection every wash.",
     },
     {
       num: "02",
       icon: Leaf,
-      title: "Natural Pine Extracts",
-      desc: "Infused with genuine pine essential oils rather than harsh artificial masking agents, leaving homes invigoratingly crisp for hours.",
+      title: "Real Pine Oil Freshness",
+      desc: "Distilled natural pine oil cleans odours instead of masking them with sharp synthetic perfume.",
     },
     {
       num: "03",
       icon: Sparkles,
-      title: "Surface Protection",
-      desc: "pH-neutral and non-corrosive. Preserves the natural sheen of Italian marble, granite, vitrified tile, and hardwood without etching.",
+      title: "Gentle on Stone Floors",
+      desc: "Balanced pH 7.0 formula leaves Italian marble, granite, and vitrified tiles glossy with zero etching.",
     },
     {
       num: "04",
       icon: HeartHandshake,
-      title: "Unmatched Economy",
-      desc: "Our concentrated formula delivers maximum cleaning value: 1 Litre produces up to 100+ litres of solution, drastically cutting packaging waste.",
+      title: "Concentrated Value",
+      desc: "1 Litre makes 100+ litres of cleaning solution—more washes per bottle and less plastic thrown away.",
     },
   ];
 
   return (
     <div className="w-full bg-white">
       <PageHeroBanner
-        eyebrow="OUR HERITAGE & MISSION"
+        eyebrow="ABOUT US"
         title="About BIRMAL & Birrumalae Pharma"
-        description="Delivering powerful, concentrated, and safe home hygiene solutions across India with pharmaceutical precision."
+        description="Concentrated pine floor care manufactured in Hyderabad for everyday Indian homes and businesses."
       />
 
       {/* Brand Story Section */}
@@ -79,18 +79,18 @@ export default function AboutPage() {
             <div className="reveal-item">
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#0FA942] mb-2">
                 <span className="w-7 h-[2px] bg-[#0FA942] rounded-full" />
-                <span>THE BIRMAL PROMISE</span>
+                <span>OUR STORY</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-[#063B38] tracking-[-0.02em] leading-[1.15]">
-                Science-Backed Cleaning For Modern Homes
+                Less Water. Better Clean. Honest Value.
               </h2>
             </div>
 
             <p className="reveal-item text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-              BIRMAL was established under <strong className="text-gray-900">{BRAND_CONFIG.companyLegalName}</strong> (Hyderabad, Telangana) to address a significant dilemma in household hygiene: ordinary surface phenyls are mostly water, contain harsh synthetic scents, and can damage sensitive stone floors.
+              We started BIRMAL under <strong className="text-gray-900">{BRAND_CONFIG.companyLegalName}</strong> in Hyderabad to fix two common complaints with ordinary phenyl: either it is mostly water that finishes in a week, or harsh acid additives slowly dull expensive marble floors.
             </p>
             <p className="reveal-item text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-              Our chemists created an active pine concentrate that requires just two caps to clean an entire residence. It lifts grease, kills 99.9% of bacteria, repels flies naturally, and air-dries into a spotless mirror finish without toxic residues.
+              Instead, we packed natural pine oil and balanced surfactants into a dense concentrate. Two caps in a bucket handle kitchen oil, dust, and bacteria while drying fast and clear.
             </p>
 
             <div className="reveal-item p-5 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 border-l-4 border-l-[#0FA942] space-y-1.5 shadow-sm">

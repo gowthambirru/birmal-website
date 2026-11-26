@@ -269,24 +269,29 @@ export default function ProductsPage() {
               </h1>
             </div>
 
-            {/* 3 Crisp Paragraphs */}
+            {/* Description Paragraphs */}
             <div className="prod-hero-stagger space-y-3 text-sm text-gray-600 leading-relaxed font-normal">
               <p>
-                <strong className="text-gray-900">{BRAND_CONFIG.name} Multipurpose Cleaner</strong> is an advanced active concentrate engineered to tackle grease, dirt, stubborn stains, and bacteria from all hard surfaces. Safe on skin and highly economical, just 1 litre of concentrate makes over 100 litres of ready-to-use floor cleaning solution.
+                <strong className="text-gray-900">{BRAND_CONFIG.name} Concentrated Floor Cleaner</strong> is made for everyday mopping where regular watery phenyl falls short. One litre makes over 100 litres of cleaning solution, cutting kitchen grease, dusty footprints, and germs cleanly.
               </p>
               <p>
-                Formulated with a balanced, surface-neutral pH level, making it 100% safe for daily use on expensive Italian marble, granite, ceramic tiles, and hardwood laminate without leaving dulling residue or damaging gloss.
-              </p>
-              <p>
-                Enriched with natural pine essential extracts, {BRAND_CONFIG.name} not only leaves tiles sparkling clean and germ-free, but also envelopes your living rooms and bedrooms in a revitalizing, long-lasting pine aroma.
+                With a balanced pH 7.0 formula and natural pine oil extracts, it safely cleans Italian marble, granite, ceramic, and vitrified tiles without leaving chalky streaks or harsh chemical smells.
               </p>
             </div>
 
-            {/* Interactive Size Selector Pills ("Available:") */}
+            {/* Interactive Size Selector Pills */}
             <div className="prod-hero-stagger pt-3 border-t border-gray-100">
-              <label className="text-xs font-black uppercase tracking-wider text-gray-900 block mb-3">
-                Available Pack Sizes:
-              </label>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <label className="text-xs font-black uppercase tracking-wider text-gray-900">
+                  Pack Sizes &amp; Official MRP:
+                </label>
+                <Link
+                  href="/catalogue#retailer-prices"
+                  className="text-[11px] font-bold text-[#0D8F38] hover:underline"
+                >
+                  Retailer Price List (20% Margin) →
+                </Link>
+              </div>
               <div className="flex flex-wrap gap-2.5">
                 {products.map((p, idx) => {
                   const isActive = idx === activeSizeIndex;
@@ -294,13 +299,15 @@ export default function ProductsPage() {
                     <button
                       key={p.id}
                       onClick={() => handleSizeSelect(idx)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-extrabold tracking-wider transition-all duration-200 border active:scale-95 ${
+                      className={`px-4 py-2.5 rounded-full text-xs font-extrabold tracking-wide transition-all duration-200 border active:scale-95 inline-flex items-center gap-1.5 ${
                         isActive
                           ? "bg-[#0FA942] text-white border-[#0FA942] shadow-pill"
                           : "bg-white text-gray-700 border-gray-200 hover:border-[#0FA942] hover:text-[#0FA942]"
                       }`}
                     >
-                      {p.volume}
+                      <span>{p.volume}</span>
+                      <span className={isActive ? "text-emerald-100" : "text-gray-400"}>•</span>
+                      <span className="tabular-nums">₹{p.mrp.toLocaleString("en-IN")}</span>
                     </button>
                   );
                 })}
@@ -311,18 +318,23 @@ export default function ProductsPage() {
                 ref={priceTagRef}
                 className="mt-4 p-4 rounded-2xl bg-[#F5F9F7] border border-emerald-950/10 flex items-center justify-between gap-4 text-xs shadow-sm"
               >
-                <div>
+                <div className="space-y-0.5">
                   <span className="font-extrabold text-[#063B38] block text-sm">
                     {currentProduct.name}
                   </span>
-                  <span className="text-gray-500 font-medium">{currentProduct.bestFor}</span>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-gray-400 line-through mr-1.5 tabular-nums">
-                    ₹{Math.round(currentProduct.mrp * 1.15)}
+                  <span className="text-gray-600 font-medium block">
+                    {currentProduct.description}
                   </span>
-                  <span className="text-lg font-black text-[#0FA942] tabular-nums">
-                    ₹{currentProduct.mrp}
+                </div>
+                <div className="text-right shrink-0 pl-2">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500 block">
+                    Official MRP
+                  </span>
+                  <span className="text-xl font-black text-[#0FA942] tabular-nums">
+                    ₹{currentProduct.mrp.toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-[10px] font-semibold text-gray-500 block">
+                    Incl. 18% GST
                   </span>
                 </div>
               </div>
@@ -458,10 +470,10 @@ export default function ProductsPage() {
             HOW TO USE
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-[#063B38] tracking-[-0.02em]">
-            Using Birmal Concentrated Floor Cleaner
+            How to Dilute &amp; Mop
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            Follow three simple steps to achieve streak-free, gleaming floors with lasting pine aroma.
+            Three quick steps for clean, streak-free floors with a fresh pine finish.
           </p>
         </div>
 

@@ -113,7 +113,7 @@ export function OurReach() {
             </div>
 
             <p className="reach-left-item text-sm sm:text-base text-teal-100/85 leading-relaxed font-normal">
-              From neighborhood kirana stores and regional supermarkets to modern cash &amp; carry hubs and quick e-commerce delivery, BIRMAL is built for dependable daily availability.
+              Find BIRMAL across neighbourhood kirana shops, supermarkets, cash-and-carry stores, and major online marketplaces nationwide.
             </p>
 
             {/* Trust Stat Metric Card */}

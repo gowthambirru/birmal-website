@@ -11,6 +11,7 @@ import {
   prefersReducedMotion,
   resolveMotionConfig,
 } from "@/lib/gsap";
+import { BRAND_CONFIG } from "@/config/brand";
 import {
   Download,
   Eye,
@@ -22,40 +23,41 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Tag,
 } from "lucide-react";
 
 const CATALOGUE_PAGES = [
   {
     pageNumber: 1,
-    title: "Official Cover & Complete Portfolio",
-    subtitle: "200ml • 500ml • 1 Litre • 5 Litres Lineup",
+    title: "Official Cover & Pack Lineup",
+    subtitle: "200 ml • 500 ml • 1 Litre • 5 Litres",
     previewSrc: "/catalogue/previews/page_1.webp",
     description:
-      "Official cover with Birrumalae Pharma credentials, 2X concentrate claim, 99.9% germ protection, and flagship bottle lineup.",
+      "Product range cover with Birrumalae Pharma details and complete bottle lineup.",
   },
   {
     pageNumber: 2,
-    title: "Formulation Science & Application Guide",
-    subtitle: "Natural Pine Chemistry, Neutral pH & Dilution SOP",
+    title: "Formulation & Mopping Guide",
+    subtitle: "Natural Pine Oil, Neutral pH 7.0 & 3-Step Usage",
     previewSrc: "/catalogue/previews/page_2.webp",
     description:
-      "Detailed breakdown of neutral pH 7.0 stability on Italian marble and granite, 4 core USPs, and 3-step dilution methodology.",
+      "Overview of stone-safe pH balance, dilution cost per litre, and daily mopping guide.",
   },
   {
     pageNumber: 3,
-    title: "Retail Consumer Range",
-    subtitle: "200ml, 500ml & 1L Packs with Full Descriptions",
+    title: "Consumer Retail Packs & MRPs",
+    subtitle: "200 ml (₹70) • 500 ml (₹170) • 1 Litre (₹330)",
     previewSrc: "/catalogue/previews/page_3.webp",
     description:
-      "Complete showcase for 200ml Trial, 500ml Family, and 1L Flagship with 4-5 line descriptions, specs, and MRPs.",
+      "Updated consumer pack specs, yields, retailer landing rates, and GST-inclusive MRPs.",
   },
   {
     pageNumber: 4,
-    title: "Institutional 5L & Master Logistics",
-    subtitle: "5 Litre Jerry Can, Freight Specifications & Plant Desk",
+    title: "5L Bulk Pack, Retailer Rates & Logistics",
+    subtitle: "09-Nov-2026 Price List, Carton Weights & Contacts",
     previewSrc: "/catalogue/previews/page_4.webp",
     description:
-      "5L commercial jerry can for high-footfall facilities, full Master Carton freight logistics table, and Mallapur Hyderabad headquarters.",
+      "5L commercial jerry can details, complete 18% GST retailer price table, and master box specs.",
   },
 ];
 
@@ -179,15 +181,15 @@ export default function CataloguePage() {
         <div className="relative z-10 max-w-7xl mx-auto text-center space-y-6">
           <div className="cat-hero-stagger inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] border border-emerald-400/30 text-emerald-300 text-xs font-extrabold uppercase tracking-[0.12em] backdrop-blur-sm">
             <FileText className="w-4 h-4 text-[#22C55E]" />
-            <span>Official Commercial Publication • 2026 – 2027</span>
+            <span>Updated Price List (09-Nov-2026) &amp; Catalogue</span>
           </div>
 
           <h1 className="cat-hero-stagger text-3xl sm:text-5xl font-black tracking-[-0.02em] uppercase max-w-4xl mx-auto leading-[1.12]">
-            Official <span className="text-[#34D399]">Product Catalogue</span> &amp; Technical Guide
+            BIRMAL <span className="text-[#34D399]">Product Catalogue</span> &amp; Trade Rates
           </h1>
 
           <p className="cat-hero-stagger text-sm sm:text-base text-teal-100/85 max-w-2xl mx-auto leading-relaxed">
-            Download or preview our complete 4-page visual lookbook &amp; commercial brochure. Features graphic infographics, product pedestals, master carton logistics, and wholesale trade terms.
+            Preview or download our 4-page product booklet along with official GST-inclusive retailer landing rates and master carton shipping dimensions.
           </p>
 
           <div className="cat-hero-stagger pt-3 flex flex-wrap items-center justify-center gap-4">
@@ -197,7 +199,7 @@ export default function CataloguePage() {
               className="btn-interactive inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-[#0FA942] hover:bg-[#14BA4B] text-white font-extrabold text-sm sm:text-base tracking-wide shadow-pill hover:shadow-pill-hover group"
             >
               <Download className="w-5 h-5 transition-transform duration-200 group-hover:translate-y-0.5" />
-              <span>DOWNLOAD OFFICIAL PDF (13.6 MB)</span>
+              <span>DOWNLOAD OFFICIAL PDF (5.3 MB)</span>
             </a>
 
             <Link
@@ -235,19 +237,163 @@ export default function CataloguePage() {
         </div>
       </section>
 
-      {/* 2. Interactive Catalogue Page Previews Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* 2. Official Retailer Price List (Effective 09-Nov-2026) */}
+      <section id="retailer-prices" className="pt-14 pb-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="bg-white rounded-3xl border border-emerald-950/10 p-6 sm:p-8 shadow-card">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#0FA942]">
+                <Tag className="w-4 h-4" />
+                <span>Official Retailer Price List</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-[#063B38] mt-1 tracking-tight">
+                Retail Billing Breakdown (w.e.f. {BRAND_CONFIG.retailPriceList.effectiveDate})
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                {BRAND_CONFIG.companyLegalName} • Retailer Discount:{" "}
+                <strong className="text-[#063B38]">
+                  {BRAND_CONFIG.retailPriceList.retailerDiscount}
+                </strong>{" "}
+                • GST: <strong className="text-[#063B38]">{BRAND_CONFIG.retailPriceList.gstRate} Inclusive</strong>
+              </p>
+            </div>
+
+            <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-emerald-50 border border-[#0FA942]/25 text-[#0D8F38] text-xs font-extrabold shrink-0">
+              20% Retailer Margin on MRP
+            </span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse tabular-nums">
+              <thead>
+                <tr className="bg-[#063B38] text-white">
+                  <th className="py-3.5 px-4 font-bold rounded-l-xl">Pack Size</th>
+                  <th className="py-3.5 px-4 font-bold">Basic Price (₹)</th>
+                  <th className="py-3.5 px-4 font-bold">GST 18% (₹)</th>
+                  <th className="py-3.5 px-4 font-bold">Retailer Landing (₹)</th>
+                  <th className="py-3.5 px-4 font-bold rounded-r-xl">MRP (₹)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {BRAND_CONFIG.retailPriceList.rows.map((row, idx) => (
+                  <tr
+                    key={row.id}
+                    className={`hover:bg-[#F5F9F7] transition-colors ${
+                      idx === 1 ? "bg-emerald-50/30" : ""
+                    }`}
+                  >
+                    <td className="py-3.5 px-4 font-extrabold text-gray-900">{row.size}</td>
+                    <td className="py-3.5 px-4 text-gray-700">₹{row.basicPrice.toFixed(2)}</td>
+                    <td className="py-3.5 px-4 text-gray-700">₹{row.gstAmount.toFixed(2)}</td>
+                    <td className="py-3.5 px-4 font-black text-[#063B38]">
+                      ₹{row.retailerLanding.toFixed(2)}
+                    </td>
+                    <td className="py-3.5 px-4 font-black text-[#0FA942]">
+                      ₹{row.mrp.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="mt-4 pt-3 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-gray-500">
+            <span>{BRAND_CONFIG.retailPriceList.termsNote}</span>
+            <span>5 Litres Commercial Jerry Can MRP: ₹1,450.00 (bulk trade rate on inquiry)</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Master Packaging & Logistics Summary Table */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="bg-white rounded-3xl border border-emerald-950/10 p-6 sm:p-8 shadow-card">
+          <div className="max-w-3xl mb-6">
+            <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#0FA942]">
+              <Layers className="w-4 h-4" />
+              <span>Carton &amp; Dispatch Details</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-[#063B38] mt-1 tracking-tight">
+              Master Carton &amp; Freight Specifications
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+              Outer shipper counts and dimensions for C&amp;F agents, super stockists, and freight booking.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse tabular-nums">
+              <thead>
+                <tr className="bg-[#063B38] text-white">
+                  <th className="py-3.5 px-4 font-bold rounded-l-xl">Product SKU</th>
+                  <th className="py-3.5 px-4 font-bold">Pack Type</th>
+                  <th className="py-3.5 px-4 font-bold">MRP (₹)</th>
+                  <th className="py-3.5 px-4 font-bold">Units / Master Box</th>
+                  <th className="py-3.5 px-4 font-bold">Gross Wt.</th>
+                  <th className="py-3.5 px-4 font-bold">Dimensions (L×W×H)</th>
+                  <th className="py-3.5 px-4 font-bold">HSN Code</th>
+                  <th className="py-3.5 px-4 font-bold rounded-r-xl">GST</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                <tr className="hover:bg-[#F5F9F7] transition-colors">
+                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 200ml</td>
+                  <td className="py-3.5 px-4 text-gray-600">Induction PET Bottle</td>
+                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹70.00</td>
+                  <td className="py-3.5 px-4 font-semibold text-gray-900">48 Units</td>
+                  <td className="py-3.5 px-4 text-gray-600">11.20 kg</td>
+                  <td className="py-3.5 px-4 text-gray-600">340 × 260 × 175 mm</td>
+                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
+                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
+                </tr>
+                <tr className="hover:bg-[#F5F9F7] transition-colors bg-emerald-50/30">
+                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 500ml</td>
+                  <td className="py-3.5 px-4 text-gray-600">Grip PET Bottle</td>
+                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹170.00</td>
+                  <td className="py-3.5 px-4 font-semibold text-gray-900">24 Units</td>
+                  <td className="py-3.5 px-4 text-gray-600">13.50 kg</td>
+                  <td className="py-3.5 px-4 text-gray-600">380 × 270 × 225 mm</td>
+                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
+                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
+                </tr>
+                <tr className="hover:bg-[#F5F9F7] transition-colors">
+                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 1 Litre</td>
+                  <td className="py-3.5 px-4 text-gray-600">Heavy PET + Dosing Cap</td>
+                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹330.00</td>
+                  <td className="py-3.5 px-4 font-semibold text-gray-900">12 Units</td>
+                  <td className="py-3.5 px-4 text-gray-600">13.80 kg</td>
+                  <td className="py-3.5 px-4 text-gray-600">360 × 275 × 285 mm</td>
+                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
+                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
+                </tr>
+                <tr className="hover:bg-[#F5F9F7] transition-colors">
+                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 5 Litres</td>
+                  <td className="py-3.5 px-4 text-gray-600">HDPE Jerry Can</td>
+                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹1,450.00</td>
+                  <td className="py-3.5 px-4 font-semibold text-gray-900">4 Cans</td>
+                  <td className="py-3.5 px-4 text-gray-600">22.40 kg</td>
+                  <td className="py-3.5 px-4 text-gray-600">390 × 310 × 330 mm</td>
+                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
+                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Interactive Catalogue Page Previews Grid */}
+      <section className="py-12 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10 pb-4 border-b border-emerald-950/10">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#0FA942]">
               <Eye className="w-4 h-4" />
-              <span>Full Document Visual Inspection</span>
+              <span>Catalogue Page Previews</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-[#063B38] mt-1 tracking-tight">
-              Browse Lookbook Pages (1 – 4)
+              Browse Pages (1 – 4)
             </h2>
             <p className="text-sm text-gray-600 mt-1">
-              Click any page to expand into high-resolution full-screen viewing mode.
+              Click any page to view full screen.
             </p>
           </div>
 
@@ -285,7 +431,7 @@ export default function CataloguePage() {
                 <div className="absolute inset-0 bg-[#032422]/45 opacity-0 group-hover:opacity-100 transition-opacity duration-250 flex items-center justify-center">
                   <div className="bg-white text-[#063B38] text-xs font-extrabold px-4 py-2 rounded-full shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200">
                     <Maximize2 className="w-3.5 h-3.5 text-[#0FA942]" />
-                    <span>View High-Res Page</span>
+                    <span>View Full Screen</span>
                   </div>
                 </div>
 
@@ -322,83 +468,6 @@ export default function CataloguePage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* 3. Master Packaging & Logistics Summary Table */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="bg-white rounded-3xl border border-emerald-950/10 p-6 sm:p-8 shadow-card">
-          <div className="max-w-3xl mb-6">
-            <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#0FA942]">
-              <Layers className="w-4 h-4" />
-              <span>Standard Distribution Logistics Data</span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-black text-[#063B38] mt-1 tracking-tight">
-              Master Carton &amp; Freight Specifications
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-600 mt-1">
-              Standardized outer shipper boxes for carrying and forwarding agents (C&amp;F), super stockists, and freight dispatch.
-            </p>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse tabular-nums">
-              <thead>
-                <tr className="bg-[#063B38] text-white">
-                  <th className="py-3.5 px-4 font-bold rounded-l-xl">Product SKU</th>
-                  <th className="py-3.5 px-4 font-bold">Pack Type</th>
-                  <th className="py-3.5 px-4 font-bold">MRP (₹)</th>
-                  <th className="py-3.5 px-4 font-bold">Units / Master Box</th>
-                  <th className="py-3.5 px-4 font-bold">Gross Wt.</th>
-                  <th className="py-3.5 px-4 font-bold">Dimensions (L×W×H)</th>
-                  <th className="py-3.5 px-4 font-bold">HSN Code</th>
-                  <th className="py-3.5 px-4 font-bold rounded-r-xl">GST</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                <tr className="hover:bg-[#F5F9F7] transition-colors">
-                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 200ml</td>
-                  <td className="py-3.5 px-4 text-gray-600">Induction PET Bottle</td>
-                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹75.00</td>
-                  <td className="py-3.5 px-4 font-semibold text-gray-900">48 Units</td>
-                  <td className="py-3.5 px-4 text-gray-600">11.20 kg</td>
-                  <td className="py-3.5 px-4 text-gray-600">340 × 260 × 175 mm</td>
-                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
-                </tr>
-                <tr className="hover:bg-[#F5F9F7] transition-colors bg-emerald-50/30">
-                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 500ml</td>
-                  <td className="py-3.5 px-4 text-gray-600">Grip PET Bottle</td>
-                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹175.00</td>
-                  <td className="py-3.5 px-4 font-semibold text-gray-900">24 Units</td>
-                  <td className="py-3.5 px-4 text-gray-600">13.50 kg</td>
-                  <td className="py-3.5 px-4 text-gray-600">380 × 270 × 225 mm</td>
-                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
-                </tr>
-                <tr className="hover:bg-[#F5F9F7] transition-colors">
-                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 1 Litre</td>
-                  <td className="py-3.5 px-4 text-gray-600">Heavy PET + Dosing Cap</td>
-                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹330.00</td>
-                  <td className="py-3.5 px-4 font-semibold text-gray-900">12 Units</td>
-                  <td className="py-3.5 px-4 text-gray-600">13.80 kg</td>
-                  <td className="py-3.5 px-4 text-gray-600">360 × 275 × 285 mm</td>
-                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
-                </tr>
-                <tr className="hover:bg-[#F5F9F7] transition-colors">
-                  <td className="py-3.5 px-4 font-extrabold text-gray-900">BIRMAL 5 Litres</td>
-                  <td className="py-3.5 px-4 text-gray-600">HDPE Jerry Can</td>
-                  <td className="py-3.5 px-4 font-extrabold text-[#0FA942]">₹1,450.00</td>
-                  <td className="py-3.5 px-4 font-semibold text-gray-900">4 Cans</td>
-                  <td className="py-3.5 px-4 text-gray-600">22.40 kg</td>
-                  <td className="py-3.5 px-4 text-gray-600">390 × 310 × 330 mm</td>
-                  <td className="py-3.5 px-4 font-mono text-xs">3402 90 99</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-700">18%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </section>
 

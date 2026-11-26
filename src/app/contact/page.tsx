@@ -92,7 +92,7 @@ export default function ContactPage() {
       <PageHeroBanner
         eyebrow="GET IN TOUCH"
         title="Contact BIRMAL"
-        description="Whether you are ordering for your household, seeking bulk institutional supply, or applying for regional distributorship, we are here to support you."
+        description="Ordering for home, stocking your store, or looking for commercial bulk rates? Reach our Hyderabad team directly."
       />
 
       {/* 2-Column Contact Section */}
@@ -249,7 +249,7 @@ export default function ContactPage() {
                   {BRAND_CONFIG.companyLegalName}
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Manufacturers of Quality Cleaning &amp; Hygiene Products
+                  Home Care &amp; Floor Hygiene Manufacturing Unit — Hyderabad
                 </p>
               </div>
 

@@ -9,6 +9,15 @@ export interface ProductSize {
   bestFor: string;
 }
 
+export interface RetailPriceRow {
+  id: string;
+  size: string;
+  basicPrice: number;
+  gstAmount: number;
+  retailerLanding: number;
+  mrp: number;
+}
+
 export interface RetailPartner {
   name: string;
   logo: string;
@@ -41,7 +50,8 @@ export const BRAND_CONFIG = {
   companyLegalName: "BIRRUMALAE PHARMA PRIVATE LIMITED",
   tagline: "Strong Concentrated Cleaner — Pine Fresh Formula",
   slogan: "Freshness In Every Clean",
-  subheading: "Since inception, BIRMAL has been India's trusted choice for powerful concentrated home hygiene. Our active pine formula eliminates tough stains, germs, and bad odors from all surfaces, keeping your home sparkling and pine fresh.",
+  subheading:
+    "Concentrated pine floor cleaner made in Hyderabad for everyday Indian homes. Two caps in a bucket lift grease, grime, and odours without leaving sticky residue or dulling marble.",
 
   // Corporate Identifiers & Standards
   cin: "U21001TS2026PTC215622",
@@ -69,11 +79,12 @@ export const BRAND_CONFIG = {
     hours: "Mon - Sat: 9:00 AM - 7:00 PM IST",
   },
 
-  // E-commerce Marketplace Links (Easy to configure)
+  // E-commerce Marketplace Links
   marketplace: {
     amazonUrl: "https://www.amazon.in",
     flipkartUrl: "https://www.flipkart.com",
-    whatsappOrderUrl: "https://wa.me/916300670550?text=Hi%2C%20I%20would%20like%20to%20order%20BIRMAL%20Floor%20Cleaner.",
+    whatsappOrderUrl:
+      "https://wa.me/916300670550?text=Hi%2C%20I%20would%20like%20to%20order%20BIRMAL%20Floor%20Cleaner.",
     dealershipInquiryUrl: "/contact#dealership",
   },
 
@@ -91,28 +102,43 @@ export const BRAND_CONFIG = {
     dilutionPower: "1L makes 100+ Litres",
     germProtection: "99.9% Germ Protection",
     concentration: "2X Tough Stain Removal",
-    fragrance: "Natural Pine Forest Freshness",
+    fragrance: "Natural Pine Freshness",
     surfaceSafety: "pH Balanced — Safe on Marble & Granite",
   },
 
-  // Trust Badges for Top/Footer Banner
-  trustBadges: [
-    {
-      title: "100% Quality Assurance",
-      subtitle: "Laboratory tested & certified safe",
-      icon: "ShieldCheck",
-    },
-    {
-      title: "2X Concentrated Formula",
-      subtitle: "1 Litre concentrate makes 100+ Litres",
-      icon: "Sparkles",
-    },
-    {
-      title: "100% Customer Satisfaction",
-      subtitle: "Trusted by thousands of families",
-      icon: "Smile",
-    },
-  ],
+  // Official Retailer Price List (w.e.f. 09-Nov-2026)
+  retailPriceList: {
+    effectiveDate: "09-Nov-2026",
+    gstRate: "18%",
+    retailerDiscount: "20% on MRP",
+    termsNote: "Prices are GST inclusive and subject to revision without prior notice.",
+    rows: [
+      {
+        id: "200ml",
+        size: "200 ml",
+        basicPrice: 47.46,
+        gstAmount: 8.54,
+        retailerLanding: 56.0,
+        mrp: 70.0,
+      },
+      {
+        id: "500ml",
+        size: "500 ml",
+        basicPrice: 115.25,
+        gstAmount: 20.75,
+        retailerLanding: 136.0,
+        mrp: 170.0,
+      },
+      {
+        id: "1l",
+        size: "1 Litre",
+        basicPrice: 223.73,
+        gstAmount: 40.27,
+        retailerLanding: 264.0,
+        mrp: 330.0,
+      },
+    ] as RetailPriceRow[],
+  },
 
   // Products & SKUs
   products: [
@@ -120,21 +146,23 @@ export const BRAND_CONFIG = {
       id: "200ml",
       name: "Birmal Concentrated Cleaner 200ml",
       volume: "200ml",
-      mrp: 75,
+      mrp: 70,
       image: "/images/products/bottle-200ml.webp",
       badge: "Trial Pack",
-      description: "Compact trial pack ideal for small households or testing the long-lasting pine freshness. Formulated to make up to 20 litres of cleaning solution.",
-      bestFor: "Small apartments & bathroom deep cleaning",
+      description:
+        "Handy size to try BIRMAL at home or pack for travel. Makes up to 20 litres of mop solution from a single bottle.",
+      bestFor: "Small flats, bathrooms & first-time trial",
     },
     {
       id: "500ml",
       name: "Birmal Concentrated Cleaner 500ml",
       volume: "500ml",
-      mrp: 175,
+      mrp: 170,
       image: "/images/products/bottle-500ml.webp",
       badge: "Popular Size",
-      description: "Our everyday favorite for nuclear families. Delivers superior stain removal and streak-free shine on tile, marble, and granite.",
-      bestFor: "Regular daily mopping for 1-2 BHK homes",
+      description:
+        "Everyday household bottle for kitchens, living rooms, and balconies. Yields up to 50 litres of pine-fresh floor cleaner.",
+      bestFor: "Daily mopping in 1–2 BHK homes",
     },
     {
       id: "1l",
@@ -143,8 +171,9 @@ export const BRAND_CONFIG = {
       mrp: 330,
       image: "/images/products/bottle-1l.webp",
       badge: "Best Seller",
-      description: "Our flagship concentrate. Dilute 2 caps (15-20ml) in 5 litres of water to create up to 100 litres of high-performance cleaning solution with lasting pine aroma.",
-      bestFor: "3-4 BHK homes, villas & daily high traffic areas",
+      description:
+        "Best-value family pack with a dosing cap. Just 15–20 ml in 5 litres of water makes over 100 litres of finished solution.",
+      bestFor: "3–4 BHK homes, villas & high-traffic floors",
     },
     {
       id: "5l",
@@ -152,9 +181,10 @@ export const BRAND_CONFIG = {
       volume: "5 Litres",
       mrp: 1450,
       image: "/images/products/bottle-5l.webp",
-      badge: "Value Pack",
-      description: "Heavy-duty commercial and institution grade packaging with easy-pour green handle. Outstanding cost economy making up to 500+ litres of solution.",
-      bestFor: "Offices, hospitals, schools, and large estates",
+      badge: "Commercial Pack",
+      description:
+        "Heavy-duty 5L jerry can with an easy-pour handle built for commercial housekeeping. Yields 500+ litres of cleaning solution.",
+      bestFor: "Offices, hospitals, schools & large premises",
     },
   ] as ProductSize[],
 
@@ -162,40 +192,43 @@ export const BRAND_CONFIG = {
   benefitTabs: [
     {
       id: "economical",
-      title: "Highly Economical",
+      title: "More Washes Per Bottle",
       icon: "Coins",
-      headline: "Maximum Cleaning Power with Minimal Drops",
-      description: "Just 2 caps (15–20 ml) in 5 litres of water cleans an entire 1500 sq.ft home. One bottle of BIRMAL outlasts 4 ordinary phenyl bottles, saving you time, storage space, and monthly grocery expenses.",
+      headline: "One Concentrated Bottle Replaces Four",
+      description:
+        "Use just 2 caps (15–20 ml) in a 5-litre bucket to mop an entire 1,500 sq.ft home. Because it isn't watered down like ordinary phenyl, a 1L bottle lasts up to 65 washes.",
       bulletPoints: [
-        "1 Litre concentrate yields 100+ buckets of floor cleaning solution",
-        "Less than ₹3 per bucket cleaning cost",
-        "Concentrated formulation reduces plastic waste significantly",
+        "1 Litre bottle yields 100+ litres of ready mop solution",
+        "Costs about ₹5–₹6 per 5L bucket (₹3.30 per litre)",
+        "Less plastic waste and fewer store refills",
       ],
       image: "/images/lifestyle/about-indoor.webp",
     },
     {
       id: "multipurpose",
-      title: "Multipurpose",
+      title: "Safe on Hard Floors",
       icon: "Layers",
-      headline: "One Solution for Every Surface and Corner",
-      description: "Engineered with a pH-neutral, non-corrosive balance that cleans gleaming marble, granite, ceramic tiles, bathroom floors, kitchen slabs, and sanitary ware without leaving chalky residues or yellow stains.",
+      headline: "One Cleaner for Every Room & Stone",
+      description:
+        "Formulated at a neutral pH 7.0 with no harsh acid or caustic burn, so polished marble, granite, vitrified tiles, and sealed wood stay bright without chalky residue.",
       bulletPoints: [
-        "100% safe on Italian marble, granite, and vitrified tiles",
-        "Cleans bathroom sinks, tile grout, and shower cubicles",
-        "Leaves zero sticky residue — safe for bare feet",
+        "Safe for Italian marble, granite, ceramic, and vitrified tiles",
+        "Cuts kitchen grease, bathroom soap scum, and floor scuffs",
+        "Dries clean with zero sticky film for bare feet",
       ],
       image: "/images/lifestyle/how-to-use-step3.webp",
     },
     {
       id: "trusted",
-      title: "Trusted & Reliable",
+      title: "Made With Care",
       icon: "ShieldCheck",
-      headline: "Formulated by Birrumalae Pharma Hygiene Standards",
-      description: "Backed by strict pharmaceutical-grade chemical formulation and quality audits. Eliminates 99.9% of bacteria, molds, and household allergens while enveloping rooms in refreshing natural pine essential oils.",
+      headline: "Formulated by Birrumalae Pharma in Hyderabad",
+      description:
+        "Manufactured under controlled pharmaceutical hygiene checks using distilled pine oil and biodegradable cleaners that clear bacteria without harsh chemical fumes.",
       bulletPoints: [
-        "99.9% laboratory certified germ removal",
-        "Safe around children and pets when used as diluted",
-        "Natural pine aroma repels houseflies and mosquitoes naturally",
+        "99.9% germ protection on sealed hard floors",
+        "Safe around kids and pets once diluted and dried",
+        "Natural pine oil helps keep flies away",
       ],
       image: "/images/lifestyle/about-balcony.webp",
     },
@@ -203,12 +236,13 @@ export const BRAND_CONFIG = {
       id: "easy-to-use",
       title: "Easy To Use",
       icon: "Sparkles",
-      headline: "Quick Dilution — No Rinsing Required",
-      description: "Simple, mess-free usage designed for modern homemakers and cleaning teams. Just add to water, mop across any hard floor, and let dry naturally in minutes for an instant mirror-like shine.",
+      headline: "Dilute, Mop & Let Dry — No Second Rinse",
+      description:
+        "Designed for quick daily routines at home or in commercial facilities. Mix two caps in water, mop across the floor, and let air-dry in minutes.",
       bulletPoints: [
-        "Fast-drying streak-free formula saves mopping time",
-        "No secondary water rinse required",
-        "Measuring cap included for exact dilution control",
+        "Fast-drying, non-slippery finish saves time",
+        "No second plain-water rinse needed",
+        "1 Litre pack comes with a calibrated dosing cap",
       ],
       image: "/images/lifestyle/how-to-use-step1.webp",
     },
@@ -218,24 +252,27 @@ export const BRAND_CONFIG = {
   usageSteps: [
     {
       step: 1,
-      title: "Measure and Dilute",
-      description: "Sweep or vacuum the floor to remove loose dirt. Pour 2 full caps (15–20 ml) of BIRMAL Concentrated Floor Cleaner into a bucket containing 5 litres of clean water.",
+      title: "Measure & Dilute",
+      description:
+        "Sweep away loose dust, then pour 2 caps (15–20 ml) of BIRMAL into a 5-litre bucket of clean water and stir lightly.",
       image: "/images/lifestyle/how-to-use-step1.webp",
-      note: "Tip: For extra shine or high-traffic muddy areas, use 3 caps.",
+      note: "For muddy entrances or greasy kitchen floors, add a third cap.",
     },
     {
       step: 2,
-      title: "Apply the Solution",
-      description: "Dip your mop into the diluted BIRMAL solution, wring gently to remove excess water, and mop the floor evenly. The micro-active pine formulation lifts grime and grease effortlessly.",
+      title: "Mop Evenly",
+      description:
+        "Dip your mop, wring out excess water, and wipe across the floor. The pine surfactants lift cooking grease and footprints without heavy scrubbing.",
       image: "/images/lifestyle/how-to-use-step2.webp",
-      note: "Safe on all marble, granite, vitrified tile, and hardwood laminate.",
+      note: "Safe on Italian marble, granite, ceramic tiles, and laminate wood.",
     },
     {
       step: 3,
-      title: "Leave Surface to Dry",
-      description: "Allow the floor to dry naturally under ceiling fans or fresh air. No second water rinse is required! Enjoy a streak-free spotless mirror finish and up to 12 hours of crisp pine freshness.",
+      title: "Let Air-Dry",
+      description:
+        "Leave the floor to dry naturally—no second water rinse needed. Floors dry streak-free with a crisp pine scent.",
       image: "/images/lifestyle/how-to-use-step3.webp",
-      note: "For tough bathroom tiles or drain corners, apply undiluted for 10 minutes then rinse.",
+      note: "For stubborn bathroom stains or drain corners, apply undiluted for 10 minutes before rinsing.",
     },
   ],
 
@@ -251,7 +288,7 @@ export const BRAND_CONFIG = {
       name: "DMart",
       logo: "/images/partners/dmart.svg",
       category: "supermarket",
-      description: "Leading hypermarket partner offering unbeatable everyday value.",
+      description: "Leading hypermarket partner offering everyday household value.",
     },
     {
       name: "Booker Wholesale",
@@ -269,37 +306,37 @@ export const BRAND_CONFIG = {
       name: "Udaan",
       logo: "/images/partners/udaan.svg",
       category: "wholesale",
-      description: "Pan-India B2B e-commerce supply network connecting retail merchants.",
+      description: "Pan-India B2B supply network connecting retail stores.",
     },
     {
       name: "Patel Retail",
       logo: "/images/partners/patel-retail.svg",
       category: "supermarket",
-      description: "Regional supermarket chain delivering quality household essentials.",
+      description: "Regional supermarket chain stocking everyday home essentials.",
     },
     {
       name: "Apna Bazar",
       logo: "/images/partners/apna-bazar.svg",
       category: "supermarket",
-      description: "Co-operative consumer store bringing community trust.",
+      description: "Consumer store chain trusted by local neighbourhoods.",
     },
     {
       name: "RK Bazar",
       logo: "/images/partners/rk-bazar.svg",
       category: "supermarket",
-      description: "Convenience grocery chain catering to everyday family needs.",
+      description: "Neighbourhood grocery stores for daily family shopping.",
     },
     {
       name: "Amazon India",
       logo: "/images/partners/amazon.svg",
       category: "online",
-      description: "Fast doorstep delivery across all Indian pin codes.",
+      description: "Home delivery across serviceable Indian pin codes.",
     },
     {
       name: "Flipkart",
       logo: "/images/partners/flipkart.svg",
       category: "online",
-      description: "Order online with verified seller warranty and bundle offers.",
+      description: "Order online with doorstep delivery across India.",
     },
   ] as RetailPartner[],
 
@@ -308,10 +345,11 @@ export const BRAND_CONFIG = {
     {
       id: "1",
       name: "Manisha Bhandari",
-      role: "Young Homemaker",
+      role: "Homemaker",
       location: "Hyderabad",
       rating: 5,
-      quote: "I tried many products before, but BIRMAL stands out instantly. The pine fragrance is amazing, fresh, and stays throughout the afternoon. Only a small cap amount is needed, which makes it very safe, effective, and convenient for daily use.",
+      quote:
+        "I've tried plenty of floor cleaners, and BIRMAL stood out from day one. The pine smell stays fresh all afternoon without feeling harsh, and just two small caps clean the whole house.",
       avatarText: "MB",
     },
     {
@@ -320,7 +358,8 @@ export const BRAND_CONFIG = {
       role: "Apartment Resident",
       location: "Secunderabad",
       rating: 5,
-      quote: "I've been using BIRMAL for months now. It's very easy and user-friendly. The pine fragrance feels so fresh and stays for a long time. Even with a little quantity, it cleans greasy kitchen tiles wonderfully—highly recommended!",
+      quote:
+        "We've been using BIRMAL for months now. It clears kitchen oil splatters easily and leaves zero sticky marks on our tiles—one bottle lasts far longer than regular phenyl.",
       avatarText: "PS",
     },
     {
@@ -329,16 +368,18 @@ export const BRAND_CONFIG = {
       role: "Mother of Two",
       location: "Bengaluru",
       rating: 5,
-      quote: "With kids and pets at home, cleanliness and surface safety are most important. BIRMAL is fresh, safe, and very easy to use. Just a small quantity in water keeps the house smelling like a luxury resort for hours. I truly love it.",
+      quote:
+        "With kids and a dog at home, I'm careful about strong chemical floors. Once diluted and dry, BIRMAL feels completely gentle underfoot and keeps the house smelling clean for hours.",
       avatarText: "SJ",
     },
     {
       id: "4",
       name: "Rajeshwar Rao",
-      role: "Facility Manager, Tech Park",
+      role: "Facility Manager",
       location: "Cyberabad",
       rating: 5,
-      quote: "We switched our commercial office floors to BIRMAL 5L concentrate cans. The cost economy is tremendous—our housekeeping team uses half the quantity previously needed, and the marble corridors maintain a pristine, non-slippery gloss.",
+      quote:
+        "Switching our office maintenance to the 5L BIRMAL cans cut our monthly cleaner spend noticeably. Our staff uses half the dose to keep granite corridors clean and non-slippery.",
       avatarText: "RR",
     },
   ] as Testimonial[],
@@ -349,37 +390,43 @@ export const BRAND_CONFIG = {
       id: "safe-kids-pets",
       category: "Product & Safety",
       question: "Is BIRMAL Floor Cleaner safe for homes with children and pets?",
-      answer: "Yes, BIRMAL Concentrated Floor Cleaner is formulated with surface-safe, balanced active ingredients. When diluted according to instructions (2 caps in 5 litres of water) and allowed to air-dry, floors are completely safe for bare feet, playing toddlers, and pets. Keep the concentrated bottle out of children's reach.",
+      answer:
+        "Yes. When diluted as directed (2 caps in 5 litres of water) and left to dry, floors are safe for bare feet, toddlers, and pets. As with any concentrate, keep the sealed bottle out of reach of children.",
     },
     {
       id: "dilution-ratio",
       category: "Usage & Dilution",
       question: "What is the recommended dilution ratio for daily mopping?",
-      answer: "For regular mopping on tile, marble, or granite, add 2 full caps (approx. 15–20 ml) to a standard mop bucket of 5 litres of water. Stir gently to create an active cleaning solution. For tough greasy bathroom tiles, kitchen counters, or drain grime, you can apply a small amount directly, leave for 10 minutes, and wipe clean.",
+      answer:
+        "Mix 2 full caps (15–20 ml) into half a bucket (5 litres) of water for everyday tile, marble, or granite floors. For stubborn bathroom grime or drain corners, apply a small amount undiluted for 10 minutes before rinsing.",
     },
     {
       id: "marble-granite-safe",
       category: "Product & Safety",
-      question: "Can BIRMAL be safely used on expensive Italian marble and granite?",
-      answer: "Absolutely. Ordinary acid-based cleaners and low-quality phenyls can cause etching, dullness, or yellow stains on porous stone. BIRMAL is pH-neutral and streak-free, specifically engineered to protect polished marble, granite, vitrified tile, and ceramic finishes while maintaining high gloss.",
+      question: "Can BIRMAL be used on Italian marble and granite?",
+      answer:
+        "Yes. Unlike acid-based cleaners that etch stone or leave yellow dullness, BIRMAL has a neutral pH 7.0 formula that cleans polished marble, granite, and vitrified tiles while preserving their natural shine.",
     },
     {
       id: "fragrance-duration",
       category: "Product & Safety",
-      question: "How long does the pine fragrance linger after cleaning?",
-      answer: "Unlike synthetic chemical perfumes that dissipate in minutes, BIRMAL uses concentrated pine oil extracts that keep rooms smelling revitalized and crisp for up to 8 to 12 hours. It also naturally neutralizes pet odors, food grease, and damp monsoon smells.",
+      question: "How long does the pine fragrance last after mopping?",
+      answer:
+        "Our concentrated pine oil extract keeps rooms smelling clean and fresh for roughly 8 to 12 hours while helping neutralise kitchen grease, pet smells, and damp monsoon odours.",
     },
     {
       id: "bulk-dealership",
       category: "Orders & Dealership",
-      question: "How can I become a distributor, dealer, or bulk buyer for BIRMAL?",
-      answer: "We welcome regional distributors, retail store chains, supermarket partners, and corporate institutional buyers. Please visit our Contact Us page, select 'Dealership Inquiry' or 'Bulk Orders', or contact our sales team directly at +91 6300670550 / birrumalaepharma@gmail.com for competitive wholesale margins and distributor kits.",
+      question: "What are the pack prices and retailer margin terms?",
+      answer:
+        "Current GST-inclusive MRPs (effective 09-Nov-2026) are ₹70 for 200 ml, ₹170 for 500 ml, ₹330 for 1 Litre, and ₹1,450 for the 5 Litre bulk can. Registered retailers receive a 20% discount on MRP (landing rates: ₹56 for 200 ml, ₹136 for 500 ml, ₹264 for 1L, inclusive of 18% GST). Call +91 6300670550 or email birrumalaepharma@gmail.com for distributor orders.",
     },
     {
       id: "where-to-buy-online",
       category: "Orders & Dealership",
-      question: "Where can I buy BIRMAL Floor Cleaner online?",
-      answer: "You can purchase authentic BIRMAL products directly on Amazon India, Flipkart, or by placing a fast WhatsApp order directly with our customer care desk at +91 6300670550.",
+      question: "Where can I buy BIRMAL Floor Cleaner?",
+      answer:
+        "You can pick up BIRMAL at supermarkets and cash & carry outlets like Reliance SMART, DMart, METRO, and Udaan, order on Amazon or Flipkart, or order directly on WhatsApp at +91 6300670550.",
     },
   ] as FAQItem[],
 };

@@ -129,80 +129,87 @@ export default function GalleryPage() {
   const galleryItems: GalleryItem[] = [
     {
       id: "lineup",
-      title: "Complete BIRMAL Family Lineup",
+      title: "Complete BIRMAL Pack Lineup",
       category: "packs",
       src: "/images/products/bottle-lineup.webp",
-      description: "200ml, 500ml, 1 Litre, and 5 Litre bulk concentrate packs with pine fresh formula.",
+      description: "Full range from 200 ml (₹70) and 500 ml (₹170) to 1 Litre (₹330) and 5 Litre bulk cans (₹1,450).",
+    },
+    {
+      id: "real-batch",
+      title: "BIRMAL Shelf-Ready Bottles (Real Unit Photo)",
+      category: "packs",
+      src: "/images/products/birmal-bottles-real.webp",
+      description: "Tamper-evident green-capped bottles with BIRMAL pine concentrate labels ready for retail dispatch.",
     },
     {
       id: "1l",
-      title: "BIRMAL 1 Litre Flagship Bottle",
+      title: "BIRMAL 1 Litre Bottle (MRP ₹330)",
       category: "packs",
       src: "/images/products/bottle-1l.webp",
-      description: "Our best-selling size for residential homes. Makes over 100 litres of cleaning solution.",
+      description: "Our top-selling family pack with measuring cap. Makes 100+ litres of cleaning solution.",
     },
     {
       id: "5l",
-      title: "BIRMAL 5 Litres Bulk Concentrate",
+      title: "BIRMAL 5 Litres Bulk Can (MRP ₹1,450)",
       category: "packs",
       src: "/images/products/bottle-5l.webp",
-      description: "Heavy-duty commercial packaging for offices, hospitals, and high-traffic spaces.",
+      description: "Sturdy HDPE jerry can built for offices, hospitals, clinics, and facility housekeeping.",
     },
     {
       id: "500ml",
-      title: "BIRMAL 500ml Everyday Pack",
+      title: "BIRMAL 500 ml Everyday Bottle (MRP ₹170)",
       category: "packs",
       src: "/images/products/bottle-500ml.webp",
-      description: "Compact ergonomic bottle for nuclear families and daily kitchen/tile mopping.",
+      description: "Easy-grip 500 ml pack ideal for daily kitchen, living room, and balcony mopping.",
     },
     {
       id: "200ml",
-      title: "BIRMAL 200ml Trial Pack",
+      title: "BIRMAL 200 ml Trial Bottle (MRP ₹70)",
       category: "packs",
       src: "/images/products/bottle-200ml.webp",
-      description: "Trial size designed for travel, sample testing, or bathroom deep disinfection.",
+      description: "Compact pack to sample BIRMAL at home, pack for travel, or deep-clean bathrooms.",
     },
     {
       id: "balcony",
-      title: "Streak-Free Balcony & Outdoor Cleaning",
+      title: "Clean Balcony & Patio Tiles",
       category: "lifestyle",
       src: "/images/lifestyle/about-balcony.webp",
-      description: "Outdoor tiles and balconies shining in natural morning sunlight with zero residue.",
+      description: "Outdoor stone and balcony flooring washed clean with zero sticky streaks.",
     },
     {
       id: "living-room",
-      title: "Mirror-Finish Marble Living Room",
+      title: "Italian Marble Living Room Finish",
       category: "lifestyle",
       src: "/images/lifestyle/about-indoor.webp",
-      description: "Polished Italian marble tiles reflecting soft morning light after mopping with BIRMAL.",
+      description: "Natural marble gloss stays bright thanks to our acid-free neutral pH 7.0 formula.",
     },
     {
       id: "dilution",
-      title: "Precision Cap Dilution",
+      title: "Two-Cap Bucket Dilution",
       category: "lifestyle",
       src: "/images/lifestyle/how-to-use-step1.webp",
-      description: "Just 2 caps into 5 litres of fresh water produces rich active cleaning suds.",
+      description: "Just 2 caps (15–20 ml) stirred into 5 litres of water cleans an entire home.",
     },
     {
       id: "mop-action",
-      title: "Streak-Free Glide Mopping",
+      title: "Smooth, Non-Sticky Mopping",
       category: "lifestyle",
       src: "/images/lifestyle/how-to-use-step2.webp",
-      description: "Microfiber mop gliding smoothly without sticky film or chemical streaks.",
+      description: "Lifts kitchen oil and dusty footprints cleanly without a second plain-water rinse.",
     },
     {
       id: "bathroom-tiles",
-      title: "Sparkling Bathroom & Fixture Hygiene",
+      title: "Fresh Bathroom Walls & Floor Tiles",
       category: "lifestyle",
       src: "/images/lifestyle/how-to-use-step3.webp",
-      description: "Immaculate wall and floor tiles with refreshing natural pine fragrance.",
+      description: "Clears soap residue and odours while leaving a crisp natural pine scent.",
     },
     {
       id: "splash",
-      title: "Pine Fresh Active Splash",
+      title: "Pine Concentrate Active Formula",
       category: "lifestyle",
       src: "/images/lifestyle/faq-splash.webp",
-      description: "Dynamic pine concentrate splash visual symbolizing purity, water freshness, and safety.",
+      description: "Dense pine concentrate engineered to stay strong even when heavily diluted in water.",
     },
   ];
 
@@ -214,9 +221,9 @@ export default function GalleryPage() {
   return (
     <div ref={pageRef} className="w-full bg-white pb-24">
       <PageHeroBanner
-        eyebrow="PRODUCT & HYGIENE SHOWCASE"
+        eyebrow="PACK SHOTS & RESULTS"
         title="BIRMAL Gallery"
-        description="Explore our studio pack shots, commercial bottle lineups, and gleaming streak-free cleaning results."
+        description="Real bottle photos, full pack sizes, and everyday streak-free cleaning results across homes and workplaces."
       >
         {/* Filter Tabs */}
         <div className="pt-4 flex flex-wrap items-center justify-center gap-3">

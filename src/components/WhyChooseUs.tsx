@@ -10,26 +10,26 @@ export function WhyChooseUs() {
   const cards = [
     {
       num: "01",
-      title: "Concentrated Pine Formula",
-      tag: "High Yield • 1L = 100+ L",
+      title: "High-Yield Concentrate",
+      tag: "2 Caps = 5L Bucket",
       description:
-        "High-potency active formula where 2 caps make 5 litres of cleaning solution. 2X tough on stains and grime, outlasting 4 regular bottles of ordinary phenyl.",
+        "One 1L bottle makes 100+ litres of cleaning solution—outlasting four regular bottles of diluted phenyl while costing far less per wash.",
       icon: Sparkles,
     },
     {
       num: "02",
-      title: "Pan-India Availability",
+      title: "Easy to Find & Restock",
       tag: "Online & Retail Shelves",
       description:
-        "Prompt doorstep delivery via Amazon, Flipkart, and leading supermarket partners, ensuring reliable supply for homes, clinics, and commercial premises.",
+        "Available across Amazon, Flipkart, supermarkets like DMart and Reliance SMART, and bulk wholesale outlets across India.",
       icon: MapPin,
     },
     {
       num: "03",
-      title: "Trusted by Families & Institutions",
-      tag: "pH 7.0 • Marble Safe",
+      title: "Kind to Stone & Skin",
+      tag: "pH 7.0 • Acid-Free",
       description:
-        "Formulated by Birrumalae Pharma under strict hygiene controls. Non-corrosive, pH balanced, 100% safe on marble, and gentle around kids and pets.",
+        "Acid-free neutral formula preserves Italian marble and granite gloss without yellow stains or harsh chemical smell.",
       icon: ShieldCheck,
     },
   ];
@@ -92,10 +92,10 @@ export function WhyChooseUs() {
             <span>WHY CHOOSE BIRMAL</span>
           </div>
           <h2 className="why-header-item text-3xl sm:text-4xl lg:text-[2.65rem] font-black text-[#063B38] tracking-[-0.02em] leading-[1.15]">
-            Your Home, Our Responsibility — Trusted Across India
+            Built to Clean Better Every Day
           </h2>
           <p className="why-header-item text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl mx-auto pt-1">
-            At BIRMAL, we go beyond surface wiping. We bring pharmaceutical quality, deep stain removal, and lingering pine freshness to every room.
+            Practical floor care made in Hyderabad—more washes per bottle, safe on natural stone, and stocked where you already shop.
           </p>
         </div>
 
